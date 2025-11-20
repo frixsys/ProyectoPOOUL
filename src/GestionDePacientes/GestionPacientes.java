@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package GestionDePacientes;
+
 public class GestionPacientes {
     private Paciente[] pacientes;
     private int contador;
