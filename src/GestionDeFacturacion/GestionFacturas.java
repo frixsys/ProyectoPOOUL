@@ -14,7 +14,7 @@ public class GestionFacturas {
         if (contador >= facturas.length) {
             return "ERROR: No se pueden agregar más facturas.";
         }
-
+        
         facturas[contador++] = f;
         return "Factura creada correctamente.";
     }
@@ -34,5 +34,6 @@ public class GestionFacturas {
     }
     public int cantidad() {
         return contador;
+        
     }
 }
