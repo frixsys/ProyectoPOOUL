@@ -18,7 +18,7 @@ public class gestionConsultorio {
     }
     
     public String crearConsultorio(Consultorio c) {
-        if (c.getCodigo() == null || c.getCodigo().isEmpty()) {
+        if (c.getCodigo() == null) {
             return "ERROR: El código no puede estar vacío.";
         }
         if (buscar(c.getCodigo()) != null) {
