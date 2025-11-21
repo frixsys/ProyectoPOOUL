@@ -25,6 +25,8 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 this.miPacientes.setEnabled(true);
                 this.miEmpleados.setEnabled(true);
                 this.miConsultorios.setEnabled(true);
+                this.miCitas.setEnabled(true);
+                this.miFacturacion.setEnabled(true);
                 break;
             case "Médico":
                 this.miConsultas.setEnabled(true);
@@ -32,6 +34,8 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 this.miPacientes.setEnabled(false);
                 this.miEmpleados.setEnabled(false);
                 this.miConsultorios.setEnabled(true);
+                this.miCitas.setEnabled(true);
+                this.miFacturacion.setEnabled(true);
                 break;
             case "Enfermera":
                 this.miConsultas.setEnabled(false);
@@ -39,9 +43,43 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 this.miPacientes.setEnabled(true);
                 this.miEmpleados.setEnabled(false);
                 this.miConsultorios.setEnabled(true);
+                this.miCitas.setEnabled(true);
+                this.miFacturacion.setEnabled(true);
+                break;
+            case "Cajero":
+                this.miConsultas.setEnabled(false);
+                this.miReportes.setEnabled(false);
+                this.miPacientes.setEnabled(false);
+                this.miEmpleados.setEnabled(false);
+                this.miConsultorios.setEnabled(false);
+                this.miCitas.setEnabled(false);
+                this.miFacturacion.setEnabled(true);
+                break;
+            case "Recepcionista":
+                this.miConsultas.setEnabled(false);
+                this.miReportes.setEnabled(false);
+                this.miPacientes.setEnabled(false);
+                this.miEmpleados.setEnabled(false);
+                this.miConsultorios.setEnabled(false);
+                this.miCitas.setEnabled(true);
+                this.miFacturacion.setEnabled(true);
                 break;
         }
     }
+    
+    private void mostrarPanel(javax.swing.JPanel nuevoPanel) {
+        nuevoPanel.setSize(jpContenidoPrincipal.getWidth(), jpContenidoPrincipal.getHeight());
+        nuevoPanel.setLocation(0, 0);
+        
+        jpContenidoPrincipal.removeAll();
+        
+        jpContenidoPrincipal.add(nuevoPanel);
+        
+        jpContenidoPrincipal.revalidate();
+        jpContenidoPrincipal.repaint();
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,6 +92,10 @@ public class MenuDeOpciones extends javax.swing.JFrame {
 
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jPanel1 = new javax.swing.JPanel();
+        jpContenidoPrincipal = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         miEmpleados = new javax.swing.JMenuItem();
@@ -61,11 +103,40 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         miReportes = new javax.swing.JMenuItem();
         miConsultas = new javax.swing.JMenuItem();
         miPacientes = new javax.swing.JMenuItem();
+        miCitas = new javax.swing.JMenuItem();
+        miFacturacion = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
         jMenuItem2.setText("jMenuItem2");
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
+
+        jMenuItem3.setText("jMenuItem3");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jpContenidoPrincipalLayout = new javax.swing.GroupLayout(jpContenidoPrincipal);
+        jpContenidoPrincipal.setLayout(jpContenidoPrincipalLayout);
+        jpContenidoPrincipalLayout.setHorizontalGroup(
+            jpContenidoPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 566, Short.MAX_VALUE)
+        );
+        jpContenidoPrincipalLayout.setVerticalGroup(
+            jpContenidoPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 497, Short.MAX_VALUE)
+        );
 
         jMenu1.setText("Menu");
 
@@ -80,6 +151,11 @@ public class MenuDeOpciones extends javax.swing.JFrame {
 
         miConsultorios.setText("Consultorios");
         miConsultorios.setEnabled(false);
+        miConsultorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miConsultoriosActionPerformed(evt);
+            }
+        });
         jMenu1.add(miConsultorios);
 
         miReportes.setText("Reportes");
@@ -99,6 +175,14 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         miPacientes.setEnabled(false);
         jMenu1.add(miPacientes);
 
+        miCitas.setText("Citas");
+        miCitas.setEnabled(false);
+        jMenu1.add(miCitas);
+
+        miFacturacion.setText("Facturacion");
+        miFacturacion.setEnabled(false);
+        jMenu1.add(miFacturacion);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -110,11 +194,17 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jpContenidoPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 276, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jpContenidoPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -122,11 +212,20 @@ public class MenuDeOpciones extends javax.swing.JFrame {
 
     private void miEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEmpleadosActionPerformed
         // TODO add your handling code here:
+        gestorEmpleadoPanel panelEmpleados = new gestorEmpleadoPanel();
+        mostrarPanel(panelEmpleados);
     }//GEN-LAST:event_miEmpleadosActionPerformed
 
     private void miReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miReportesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_miReportesActionPerformed
+
+    private void miConsultoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConsultoriosActionPerformed
+        // TODO add your handling code here:
+        gestorConsultorioPanel panelConsultorios = new gestorConsultorioPanel();
+        
+        mostrarPanel(panelConsultorios);
+    }//GEN-LAST:event_miConsultoriosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,14 +263,20 @@ public class MenuDeOpciones extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jpContenidoPrincipal;
+    private javax.swing.JMenuItem miCitas;
     private javax.swing.JMenuItem miConsultas;
     private javax.swing.JMenuItem miConsultorios;
     private javax.swing.JMenuItem miEmpleados;
+    private javax.swing.JMenuItem miFacturacion;
     private javax.swing.JMenuItem miPacientes;
     private javax.swing.JMenuItem miReportes;
     // End of variables declaration//GEN-END:variables
