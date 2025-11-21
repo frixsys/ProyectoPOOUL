@@ -1,4 +1,4 @@
-package GestionSistemaClinico;
+package pooproject;
 
 import GestionDePacientes.GestionPacientes;
 import GestionDeEmpleados.GestionEmpleados;
@@ -14,12 +14,16 @@ import GestionDeConsultorios.Cita;
 import GestionDeFacturacion.Factura;
 
 public class SistemaClinico {
-    private GestionPacientes gestionPacientes;
-    private GestionEmpleados gestionEmpleados;
-    private gestionConsultorio gestionConsultorios;
-    private GestionCitas gestionCitas;
-    private GestionFacturas gestionFacturas;
+    static  GestionPacientes gestionPacientes;
+    static GestionEmpleados gestionEmpleados;
+    static gestionConsultorio gestionConsultorios;
+    static GestionCitas gestionCitas;
+    static GestionFacturas gestionFacturas;
     public SistemaClinico() {
+        
+    }
+    
+    static void inicializarvariable() {
         gestionPacientes = new GestionPacientes(200);
         gestionEmpleados = new GestionEmpleados(100);
         gestionConsultorios = new gestionConsultorio(50);

@@ -19,6 +19,7 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         initComponents();
+        SistemaClinico.inicializarvariable();
         usuarios = new gestorUsuarios();
         usuarios.AgregarUsuario("admin", "admin", "Administrador");
         usuarios.AgregarUsuario("medico", "medico", "Médico");
