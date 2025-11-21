@@ -4,24 +4,27 @@ import GestionDeConsultorios.Cita;
 
 public class Consultorio {
 
-    private String codigo;
+    private int codigo;
     private String especialidad;
     private String estado;  
     private Cita[] citas;  
     private int contadorCitas;
+    private boolean[] horarioDisponible;
 
-    public Consultorio(String codigo, String especialidad, String estado) {
+    public Consultorio(int codigo, String especialidad, String estado) {
         this.codigo = codigo;
         this.especialidad = especialidad;
         this.estado = estado;
         this.citas = new Cita[10]; 
         this.contadorCitas = 0;
+        this.horarioDisponible = new boolean[7];
+        
     }
-    
-    public String getCodigo() {
+       
+    public int getCodigo() {
       return codigo; 
     }
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
@@ -52,6 +55,14 @@ public class Consultorio {
     }
     public void cambiarEstado(String nuevoEstado) {
         this.estado = nuevoEstado;
+    }
+
+    public boolean[] getHorarioDisponible() {
+        return horarioDisponible;
+    }
+
+    public void setHorarioDisponible(boolean[] horarioDisponible) {
+        this.horarioDisponible = horarioDisponible;
     }
     
 }

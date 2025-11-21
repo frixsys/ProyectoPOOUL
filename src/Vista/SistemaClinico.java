@@ -1,4 +1,4 @@
-package pooproject;
+package Vista;
 
 import GestionDePacientes.GestionPacientes;
 import GestionDeEmpleados.GestionEmpleados;

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package pooproject;
+package Vista;
 
 import Model.Usuario;
 
@@ -131,11 +131,11 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         jpContenidoPrincipal.setLayout(jpContenidoPrincipalLayout);
         jpContenidoPrincipalLayout.setHorizontalGroup(
             jpContenidoPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 566, Short.MAX_VALUE)
+            .addGap(0, 1000, Short.MAX_VALUE)
         );
         jpContenidoPrincipalLayout.setVerticalGroup(
             jpContenidoPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 497, Short.MAX_VALUE)
+            .addGap(0, 499, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Menu");

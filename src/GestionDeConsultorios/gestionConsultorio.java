@@ -18,30 +18,29 @@ public class gestionConsultorio {
     }
     
     public String crearConsultorio(Consultorio c) {
-        if (c.getCodigo() == null) {
-            return "ERROR: El código no puede estar vacío.";
-        }
-        if (buscar(c.getCodigo()) != null) {
-            return "ERROR: Ya existe un consultorio con ese código."; 
-        }
+        if (c.getCodigo() <= 0) { 
+        return "ERROR: El código no puede ser 0 o negativo.";
+    }
+        if (buscar(c.getCodigo()) != null) { 
+        return "ERROR: Ya existe un consultorio con ese código."; 
+    }
         if (cont >= consultorios.length) {
-            return "ERROR: No hay espacio para más consultorios."; 
-        }
-        
-       consultorios[cont++] = c;
+        return "ERROR: No hay espacio para más consultorios."; 
+    }
+        consultorios[cont++] = c;
         return "Consultorio registrado correctamente.";
     }
 
-    public Consultorio buscar(String codigo) {
+    public Consultorio buscar(int codigo) {
         for (int i = 0; i < cont; i++) {
-            if (consultorios[i].getCodigo().equals(codigo)) {
+            if (consultorios[i].getCodigo() == codigo) {
                 return consultorios[i];
             }
         }
         return null;
     }
 
-    public String modificarConsultorio(String codigo, String nuevaEspecialidad, String nuevoEstado) {
+    public String modificarConsultorio(int codigo, String nuevaEspecialidad, String nuevoEstado) {
         Consultorio c = buscar(codigo);
         if (c == null) {
             return "ERROR: Consultorio no encontrado.";
@@ -53,9 +52,9 @@ public class gestionConsultorio {
     }
 
 
-    public String eliminarConsultorio(String codigo) {
+    public String eliminarConsultorio(int codigo) {
         for (int i = 0; i < cont; i++) {
-            if (consultorios[i].getCodigo().equals(codigo)) {
+            if (consultorios[i].getCodigo() == codigo) {
                 consultorios[i] = consultorios[cont - 1]; 
                 consultorios[cont - 1] = null;
                 cont--;
