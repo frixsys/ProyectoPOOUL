@@ -4,6 +4,11 @@
  */
 package Vista;
 
+import GestionDeEmpleados.Empleado;
+import GestionDeEmpleados.GestionEmpleados;
+import javax.swing.table.DefaultTableModel;
+import Vista.SistemaClinico;
+
 /**
  *
  * @author santiago
@@ -13,8 +18,43 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
     /**
      * Creates new form ges
      */
+    private DefaultTableModel modeloEmpl;
+    
     public gestorEmpleadoPanel() {
         initComponents();
+        modeloEmpl = new DefaultTableModel();
+        modeloEmpl.addColumn("DNI");
+        modeloEmpl.addColumn("Nombres");
+        modeloEmpl.addColumn("Apellidos");
+        modeloEmpl.addColumn("Telefono");
+        modeloEmpl.addColumn("E-mail");
+        modeloEmpl.addColumn("Usuario");
+        modeloEmpl.addColumn("Password");
+        modeloEmpl.addColumn("Rol");
+        this.jtEmpleados.setModel(modeloEmpl);
+        
+    }
+    
+    public void cargarTablaEmpleados() {
+        int filas = this.jtEmpleados.getRowCount();
+        for (int i = 0; i < filas; i++) {
+            modeloEmpl.removeRow(0);
+        }
+        
+        Empleado[] arreglo = SistemaClinico.gestionEmpleados.listar();
+        String[] datos = new String[5];
+        for (int i = 0; i < SistemaClinico.gestionEmpleados.cantidad(); i++) {
+            datos[0] = String.valueOf(arreglo[i].getDni());
+            datos[1] = arreglo[i].getNombre();
+            datos[2] = arreglo[i].getApellido();
+            datos[3] = arreglo[i].getTelefono();
+            datos[4] = arreglo[i].getEmail();
+            datos[5] = arreglo[i].getUsuario();
+            datos[6] = arreglo[i].getPassword();
+            datos[7] = arreglo[i].getRol();
+            
+            modeloEmpl.addRow(datos);
+        }
     }
 
     /**
@@ -27,29 +67,100 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtConsultorios = new javax.swing.JTable();
         bAgregar = new javax.swing.JToggleButton();
         bModificar = new javax.swing.JToggleButton();
         bEliminar = new javax.swing.JToggleButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtEmpleados = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        bVer = new javax.swing.JToggleButton();
+        jlDNI = new javax.swing.JLabel();
+        jtDNI = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jtNombres = new javax.swing.JTextField();
+        jtApellidos = new javax.swing.JTextField();
+        jcbRol = new javax.swing.JComboBox<>();
+        jtUsuario = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jtTelefono = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jtEmail = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtConsultorios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jtConsultorios);
 
         bAgregar.setText("Agregar");
+        bAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAgregarActionPerformed(evt);
+            }
+        });
 
         bModificar.setText("Modificar");
 
         bEliminar.setText("Eliminar");
+        bEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEliminarActionPerformed(evt);
+            }
+        });
+
+        jtEmpleados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(jtEmpleados);
+
+        jLabel1.setText("Datos Empleado");
+
+        bVer.setText("Ver");
+
+        jlDNI.setText("DNI");
+
+        jtDNI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtDNIActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Nombres");
+
+        jLabel3.setText("Apellidos");
+
+        jLabel4.setText("Rol");
+
+        jLabel5.setText("Usuario");
+
+        jcbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Cajero", "Empleado", "Medico", "Recepcionista" }));
+
+        jLabel6.setText("Telefono");
+
+        jLabel7.setText("E-Mail");
+
+        jLabel8.setText("Clave");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -58,35 +169,136 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(bAgregar)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bAgregar)
+                            .addComponent(jlDNI)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel5))
                         .addGap(18, 18, 18)
-                        .addComponent(bModificar)
-                        .addGap(18, 18, 18)
-                        .addComponent(bEliminar)))
-                .addContainerGap(73, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bModificar)
+                                .addGap(117, 117, 117))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtNombres)
+                                    .addComponent(jtApellidos)
+                                    .addComponent(jtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtEmail)
+                                    .addComponent(jtUsuario)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(34, 34, 34)))
+                        .addComponent(jLabel4)))
+                .addGap(18, 18, 18)
+                .addComponent(jcbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bVer)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
+                        .addComponent(bEliminar))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bAgregar)
-                    .addComponent(bModificar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel1)
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlDNI)
+                            .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jcbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(40, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bAgregar)
+                        .addComponent(bModificar)
+                        .addComponent(bVer))
                     .addComponent(bEliminar))
-                .addGap(31, 31, 31))
+                .addGap(7, 7, 7))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bEliminarActionPerformed
+
+    private void jtDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtDNIActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtDNIActionPerformed
+
+    private void bAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAgregarActionPerformed
+        // TODO add your handling code here:
+        
+
+    }//GEN-LAST:event_bAgregarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton bAgregar;
     private javax.swing.JToggleButton bEliminar;
     private javax.swing.JToggleButton bModificar;
+    private javax.swing.JToggleButton bVer;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> jcbRol;
+    private javax.swing.JLabel jlDNI;
+    private javax.swing.JTextField jtApellidos;
+    private javax.swing.JTable jtConsultorios;
+    private javax.swing.JTextField jtDNI;
+    private javax.swing.JTextField jtEmail;
+    private javax.swing.JTable jtEmpleados;
+    private javax.swing.JTextField jtNombres;
+    private javax.swing.JTextField jtTelefono;
+    private javax.swing.JTextField jtUsuario;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,7 +5,6 @@
 package Vista;
 
 import GestionDeConsultorios.Consultorio;
-import GestionDeConsultorios.gestionConsultorio;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,7 +17,6 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
      * Creates new form gestionConsultorioPanel
      */
     
-    private gestionConsultorio gestor;
     private DefaultTableModel modelo;
     
     public gestorConsultorioPanel() {
@@ -28,8 +26,6 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         modelo.addColumn("Especialidad");
         modelo.addColumn("Estado");
         this.jtConsultorios.setModel(modelo);
-        
-        gestor = new gestionConsultorio(30);
         
         configurarCampos(true);
         
@@ -45,13 +41,13 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
             modelo.removeRow(0);
         }
         
-        Consultorio[] arreglo = gestor.listar();
-        String[] datoa = new String[3];
-        for (int i =0; i<gestor.cantidad(); i++){
-            datoa[0]= String.valueOf(arreglo[i].getCodigo());
-            datoa[1]= arreglo[i].getEspecialidad();
-            datoa[2] = arreglo[i].getEstado();
-            modelo.addRow(datoa);
+        Consultorio[] arreglo = SistemaClinico.gestionConsultorios.listar();
+        String[] datos = new String[3];
+        for (int i =0; i< SistemaClinico.gestionConsultorios.cantidad(); i++){
+            datos[0]= String.valueOf(arreglo[i].getCodigo());
+            datos[1]= arreglo[i].getEspecialidad();
+            datos[2] = arreglo[i].getEstado();
+            modelo.addRow(datos);
         }
         
     
@@ -122,9 +118,9 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         nuevoHorario[5] = jCheckBox7.isSelected();
         nuevoHorario[6] = jCheckBox8.isSelected();
 
-        String mensaje = gestor.modificarConsultorio(cod, nuevaEspecialidad, nuevoEstado);
+        String mensaje = SistemaClinico.gestionConsultorios.modificarConsultorio(cod, nuevaEspecialidad, nuevoEstado);
 
-        Consultorio consultorioModificado = gestor.buscar(cod);
+        Consultorio consultorioModificado = SistemaClinico.gestionConsultorios.buscar(cod);
         if (consultorioModificado != null) {
             consultorioModificado.setHorarioDisponible(nuevoHorario);
         }
@@ -146,7 +142,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         try {
             Object valorTabla = jtConsultorios.getValueAt(filaSeleccionada, 0); 
             int codigoConsultorio = Integer.parseInt(valorTabla.toString());
-            Consultorio consultorio = gestor.buscar(codigoConsultorio);
+            Consultorio consultorio = SistemaClinico.gestionConsultorios.buscar(codigoConsultorio);
 
             if (consultorio != null) {
         
@@ -329,7 +325,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
                         .addComponent(bAgregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bModiciar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(bVer)
@@ -413,8 +409,8 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
             Consultorio ref = new Consultorio(cod, esp, est);
 
             ref.setHorarioDisponible(horario);
-
-            gestor.crearConsultorio(ref);
+            
+            SistemaClinico.gestionConsultorios.crearConsultorio(ref);
             cargarTablaConsultorios();
             configurarCampos(true);
         } catch (NumberFormatException e) {
@@ -454,7 +450,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
             String codigoStr = valorTabla.toString();
 
             int codigoConsultorio = Integer.parseInt(codigoStr);
-            Consultorio consultorio = gestor.buscar(codigoConsultorio);
+            Consultorio consultorio = SistemaClinico.gestionConsultorios.buscar(codigoConsultorio);
 
             if(consultorio != null){
                 cargarDatosDetalle(consultorio);
@@ -483,7 +479,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
     private void bEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarActionPerformed
 
         int cod = Integer.parseInt(this.jtEliminarCod.getText());
-        gestor.eliminarConsultorio(cod);
+        SistemaClinico.gestionConsultorios.eliminarConsultorio(cod);
         cargarTablaConsultorios();
     }//GEN-LAST:event_bEliminarActionPerformed
 
