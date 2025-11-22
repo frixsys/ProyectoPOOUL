@@ -57,6 +57,8 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="bVer" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jtEliminarCod" min="-2" pref="114" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="bEliminar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -118,6 +120,7 @@
                   <Component id="bVer" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bModiciar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jtEliminarCod" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="23" max="32767" attributes="0"/>
           </Group>
@@ -283,6 +286,8 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Codigo"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jtEliminarCod">
     </Component>
   </SubComponents>
 </Form>

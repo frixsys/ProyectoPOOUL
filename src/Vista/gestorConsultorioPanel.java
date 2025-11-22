@@ -72,7 +72,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         
         bAgregar.setEnabled(habilitar);
         bModiciar.setEnabled(!habilitar);
-        bEliminar.setEnabled(!habilitar);
+        bEliminar.setEnabled(habilitar);
         bVer.setEnabled(!habilitar);
         
         bVer.setEnabled(true);
@@ -204,6 +204,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         jCheckBox8 = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jtEliminarCod = new javax.swing.JTextField();
 
         jtConsultorios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -333,6 +334,8 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(bVer)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jtEliminarCod, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bEliminar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(83, 83, 83))
@@ -381,40 +384,42 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
                     .addComponent(bEliminar)
                     .addComponent(bVer)
                     .addComponent(bModiciar)
-                    .addComponent(bAgregar))
+                    .addComponent(bAgregar)
+                    .addComponent(jtEliminarCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void bAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAgregarActionPerformed
-        // TODO add your handling code here:    
-        int cod = Integer.parseInt(this.jtCodigo.getText());
-        String esp = (String) this.jcbEspecialidad.getSelectedItem();
-        String est = (String) this.jcbEstado.getSelectedItem();
-        
-        boolean[] horarioCardiologia = {true, true, false, false, true, false, false}; // 10-12am y 2-3pm
+        // TODO add your handling code here: 
+        try {
+            if(this.jtCodigo.getText().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ingresa un codigo porque está vacío.");
+            }
+            int cod = Integer.parseInt(this.jtCodigo.getText());
+            String esp = (String) this.jcbEspecialidad.getSelectedItem();
+            String est = (String) this.jcbEstado.getSelectedItem();
 
-        Consultorio c1 = new Consultorio(1, "Medicina General", "Disponible");
-        c1.setHorarioDisponible(horarioCardiologia); // <-- INYECTAR HORARIO
-        gestor.crearConsultorio(c1);
-        
-        boolean[] horario = new boolean[7];
-        
-        horario[0] = jCheckBox1.isSelected();
-        horario[1] = jCheckBox2.isSelected();
-        horario[2] = jCheckBox3.isSelected();
-        horario[3] = jCheckBox4.isSelected();
-        horario[4] = jCheckBox6.isSelected();
-        horario[5] = jCheckBox7.isSelected();
-        horario[6] = jCheckBox8.isSelected();
-        
-        Consultorio ref = new Consultorio(cod, esp, est);
-        
-        ref.setHorarioDisponible(horario);
-        
-        gestor.crearConsultorio(ref);
-        cargarTablaConsultorios();
-        configurarCampos(true);
+            boolean[] horario = new boolean[7];
+
+            horario[0] = jCheckBox1.isSelected();
+            horario[1] = jCheckBox2.isSelected();
+            horario[2] = jCheckBox3.isSelected();
+            horario[3] = jCheckBox4.isSelected();
+            horario[4] = jCheckBox6.isSelected();
+            horario[5] = jCheckBox7.isSelected();
+            horario[6] = jCheckBox8.isSelected();
+
+            Consultorio ref = new Consultorio(cod, esp, est);
+
+            ref.setHorarioDisponible(horario);
+
+            gestor.crearConsultorio(ref);
+            cargarTablaConsultorios();
+            configurarCampos(true);
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "El código debe ser un número entero.");
+        }
       
 
         
@@ -477,36 +482,9 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
 
     private void bEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarActionPerformed
 
-        int filaSeleccionada = jtConsultorios.getSelectedRow();
-
-        if (filaSeleccionada == -1) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Debe seleccionar un consultorio de la tabla para eliminarlo.");
-            return;
-        }
-
-        try {
-            Object valorTabla = jtConsultorios.getValueAt(filaSeleccionada, 0); 
-            String codigoStr = valorTabla.toString();
-            int codigoConsultorio = Integer.parseInt(codigoStr);
-
-            int respuesta = javax.swing.JOptionPane.showConfirmDialog(
-                this,
-                "¿Está seguro que desea eliminar el consultorio con Código: " + codigoConsultorio + "? Esta acción es irreversible.",
-                "Confirmar Eliminación",
-                javax.swing.JOptionPane.YES_NO_OPTION
-            );
-
-            if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
-                String mensaje = gestor.eliminarConsultorio(codigoConsultorio);
-
-                javax.swing.JOptionPane.showMessageDialog(this, mensaje);
-                configurarCampos(true); 
-                cargarTablaConsultorios();
-            }
-
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error: Código de consultorio inválido o faltante.");
-        }
+        int cod = Integer.parseInt(this.jtEliminarCod.getText());
+        gestor.eliminarConsultorio(cod);
+        cargarTablaConsultorios();
     }//GEN-LAST:event_bEliminarActionPerformed
 
 
@@ -532,5 +510,6 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jcbEstado;
     private javax.swing.JTextField jtCodigo;
     private javax.swing.JTable jtConsultorios;
+    private javax.swing.JTextField jtEliminarCod;
     // End of variables declaration//GEN-END:variables
 }
