@@ -57,8 +57,6 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="bVer" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jtCodBorrar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="bEliminar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -120,7 +118,6 @@
                   <Component id="bVer" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bModiciar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jtCodBorrar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="23" max="32767" attributes="0"/>
           </Group>
@@ -162,6 +159,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Eliminar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bEliminarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bVer">
       <Properties>
@@ -283,8 +283,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Codigo"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jtCodBorrar">
     </Component>
   </SubComponents>
 </Form>
