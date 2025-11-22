@@ -106,7 +106,74 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         jCheckBox6.setSelected(horario[4]);
         jCheckBox7.setSelected(horario[5]);
         jCheckBox8.setSelected(horario[6]);
+    }    
+    
+    private void guardarCambosModificacion(){
+        int cod = Integer.parseInt(jtCodigo.getText());
+        String nuevaEspecialidad = (String) jcbEspecialidad.getSelectedItem();
+        String nuevoEstado = (String) jcbEstado.getSelectedItem();
+
+        boolean[] nuevoHorario = new boolean[7];
+        nuevoHorario[0] = jCheckBox1.isSelected();
+        nuevoHorario[1] = jCheckBox2.isSelected();
+        nuevoHorario[2] = jCheckBox3.isSelected();
+        nuevoHorario[3] = jCheckBox4.isSelected();
+        nuevoHorario[4] = jCheckBox6.isSelected();
+        nuevoHorario[5] = jCheckBox7.isSelected();
+        nuevoHorario[6] = jCheckBox8.isSelected();
+
+        String mensaje = gestor.modificarConsultorio(cod, nuevaEspecialidad, nuevoEstado);
+
+        Consultorio consultorioModificado = gestor.buscar(cod);
+        if (consultorioModificado != null) {
+            consultorioModificado.setHorarioDisponible(nuevoHorario);
+        }
+
+        javax.swing.JOptionPane.showMessageDialog(this, mensaje + "\nHorario actualizado.");
+        bModiciar.setText("Modificar");
+
+        configurarCampos(true);
+        cargarTablaConsultorios();
     }
+    
+    private void iniciarModificacion() {
+        int filaSeleccionada = jtConsultorios.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un consultorio de la tabla para modificarlo.");
+            return;
+        }
+
+        try {
+            Object valorTabla = jtConsultorios.getValueAt(filaSeleccionada, 0); 
+            int codigoConsultorio = Integer.parseInt(valorTabla.toString());
+            Consultorio consultorio = gestor.buscar(codigoConsultorio);
+
+            if (consultorio != null) {
+                // 1. Cargar los datos (Igual que "Ver", esto llena los checkboxes)
+                cargarDatosDetalle(consultorio); 
+
+                // 2. HABILITAR todos los campos editables
+                jcbEspecialidad.setEnabled(true);
+                jcbEstado.setEnabled(true);
+                jCheckBox1.setEnabled(true);
+                jCheckBox2.setEnabled(true);
+                jCheckBox3.setEnabled(true);
+                jCheckBox4.setEnabled(true);
+                jCheckBox6.setEnabled(true);
+                jCheckBox7.setEnabled(true);
+                jCheckBox8.setEnabled(true);
+
+                // 3. BLOQUEAR EL CÓDIGO Y LOS DEMÁS BOTONES
+                jtCodigo.setEnabled(false); // Mantener Código en modo sólo lectura
+                bModiciar.setText("Guardar Cambios");
+                bAgregar.setEnabled(false);
+                bVer.setEnabled(false);
+                bEliminar.setEnabled(false);
+            }
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error de formato de código.");
+        }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -138,6 +205,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         jCheckBox8 = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jtCodBorrar = new javax.swing.JTextField();
 
         jtConsultorios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -169,6 +237,11 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         });
 
         bModiciar.setText("Modificar");
+        bModiciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bModiciarActionPerformed(evt);
+            }
+        });
 
         jtCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,6 +330,8 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(bVer)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jtCodBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bEliminar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(83, 83, 83))
@@ -305,7 +380,8 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
                     .addComponent(bEliminar)
                     .addComponent(bVer)
                     .addComponent(bModiciar)
-                    .addComponent(bAgregar))
+                    .addComponent(bAgregar)
+                    .addComponent(jtCodBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -389,6 +465,16 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_bVerActionPerformed
 
+    private void bModiciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModiciarActionPerformed
+        // TODO add your handling code here:
+        if (bModiciar.getText().equals("Guardar Cambios")) {
+            guardarCambosModificacion();
+        } 
+        else if (bModiciar.getText().equals("Modificar")) {
+            iniciarModificacion();
+        }
+    }//GEN-LAST:event_bModiciarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAgregar;
@@ -410,6 +496,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> jcbEspecialidad;
     private javax.swing.JComboBox<String> jcbEstado;
+    private javax.swing.JTextField jtCodBorrar;
     private javax.swing.JTextField jtCodigo;
     private javax.swing.JTable jtConsultorios;
     // End of variables declaration//GEN-END:variables
