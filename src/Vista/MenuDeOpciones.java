@@ -167,6 +167,11 @@ public class MenuDeOpciones extends javax.swing.JFrame {
 
         miCitas.setText("Citas");
         miCitas.setEnabled(false);
+        miCitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCitasActionPerformed(evt);
+            }
+        });
         jMenu1.add(miCitas);
 
         miFacturacion.setText("Facturacion");
@@ -218,6 +223,12 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         gestorPacientePanel panelPacientes = new gestorPacientePanel();
         mostrarPanel(panelPacientes);
     }//GEN-LAST:event_miPacientesActionPerformed
+
+    private void miCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCitasActionPerformed
+        // TODO add your handling code here:
+        gestionCitaPanel panelCitas = new gestionCitaPanel();
+        mostrarPanel(panelCitas);
+    }//GEN-LAST:event_miCitasActionPerformed
 
     /**
      * @param args the command line arguments
