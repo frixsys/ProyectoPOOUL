@@ -36,4 +36,23 @@ public class GestionFacturas {
         return contador;
         
     }
+    
+    public Factura buscarFactura(int numero) {
+        for (int i = 0; i < contador; i++) {
+            if (facturas[i].getNumero() == numero) {
+                return facturas[i];
+            }
+        }
+        return null;
+    }
+
+    public String modificarFactura(int numero, String nuevaDescripcion, double nuevoMonto) {
+        Factura f = buscarFactura(numero);
+        if (f == null) {
+            return "ERROR: Factura no encontrada.";
+        }
+        f.setDescripcion(nuevaDescripcion);
+        f.setMonto(nuevoMonto);
+        return "Factura modificada correctamente.";
+    }
 }

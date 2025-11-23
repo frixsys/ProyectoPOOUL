@@ -4,17 +4,92 @@
  */
 package Vista;
 
+import GestionDeFacturacion.Factura;
+import GestionDePacientes.Paciente;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import javax.swing.DefaultComboBoxModel;
 /**
  *
  * @author santiago
  */
 public class gestorFacturaPanel extends javax.swing.JPanel {
+    private DefaultTableModel modeloFact;
 
     /**
      * Creates new form gestionFacturaPanel
      */
     public gestorFacturaPanel() {
         initComponents();
+        
+        modeloFact = new DefaultTableModel();
+        
+        modeloFact.addColumn("Nro Factura");
+        modeloFact.addColumn("Descripción");
+        modeloFact.addColumn("Monto Total");
+        
+        this.jtFacturas.setModel(modeloFact);
+        
+        cargarCombos(); 
+        cargarTablaFacturas();
+        limpiarCampos();
+        
+        jcbPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                if(jcbPacientes.getSelectedIndex() > 0) {
+                    String paciente = (String) jcbPacientes.getSelectedItem();
+                    jtDescripcion.setText("Atención a: " + paciente.split(" - ")[1]); 
+                }
+            }
+        });
+    }
+    
+    public void cargarCombos() {
+        jcbPacientes.removeAllItems();
+        jcbPacientes.addItem("-- Seleccione Paciente --");
+        
+        Paciente[] lista = SistemaClinico.gestionPacientes.listar();
+        for(int i=0; i < SistemaClinico.gestionPacientes.cantidad(); i++){
+            // Formato: DNI - Nombre
+            jcbPacientes.addItem(lista[i].getDni() + " - " + lista[i].getNombre() + " " + lista[i].getApellido());
+        }
+    }
+
+    public void cargarTablaFacturas() {
+        int filas = this.jtFacturas.getRowCount();
+        for (int i = 0; i < filas; i++) {
+            modeloFact.removeRow(0);
+        }
+
+        Factura[] lista = SistemaClinico.gestionFacturas.listar();
+        String[] datos = new String[3];
+        
+        for (int i = 0; i < SistemaClinico.gestionFacturas.cantidad(); i++) {
+            datos[0] = String.valueOf(lista[i].getNumero());
+            datos[1] = lista[i].getDescripcion();
+            datos[2] = "S/. " + lista[i].getMonto(); 
+            modeloFact.addRow(datos);
+        }
+    }
+
+    public void configurarCampos(boolean habilitar) {
+        jtNumero.setEnabled(habilitar);
+        jtMonto.setEnabled(habilitar);
+        jtDescripcion.setEnabled(habilitar);
+        jcbPacientes.setEnabled(habilitar);
+    }
+
+    public void limpiarCampos() {
+        jtNumero.setText("");
+        jtMonto.setText("");
+        jtDescripcion.setText("");
+        if(jcbPacientes.getItemCount() > 0) jcbPacientes.setSelectedIndex(0);
+        
+        configurarCampos(true);
+        bModificar.setText("Modificar");
+        bAgregar.setEnabled(true);
+        bEliminar.setEnabled(true);
+        bVer.setEnabled(true);
     }
 
     /**
@@ -26,19 +101,290 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jtNumero = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jtMonto = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jtDescripcion = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jcbPacientes = new javax.swing.JComboBox<>();
+        bAgregar = new javax.swing.JButton();
+        bModificar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtFacturas = new javax.swing.JTable();
+        bVer = new javax.swing.JButton();
+        bEliminar = new javax.swing.JButton();
+        jtEliminarNumero = new javax.swing.JTextField();
+
+        jLabel1.setText("Datos Facturas");
+
+        jLabel2.setText("Numero");
+
+        jLabel3.setText("Monto");
+
+        jLabel4.setText("Descripcion");
+
+        jLabel5.setText("Pacientes");
+
+        jcbPacientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        bAgregar.setText("Agregar");
+        bAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAgregarActionPerformed(evt);
+            }
+        });
+
+        bModificar.setText("Modificar");
+        bModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bModificarActionPerformed(evt);
+            }
+        });
+
+        jtFacturas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(jtFacturas);
+
+        bVer.setText("Ver");
+        bVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bVerActionPerformed(evt);
+            }
+        });
+
+        bEliminar.setText("Eliminar");
+        bEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcbPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bAgregar)
+                        .addGap(28, 28, 28)
+                        .addComponent(bModificar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(bVer)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jtEliminarNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bEliminar)))
+                .addGap(34, 34, 34))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel1)
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jcbPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(27, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bAgregar)
+                        .addComponent(bModificar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bVer)
+                        .addComponent(bEliminar)
+                        .addComponent(jtEliminarNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void bAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAgregarActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (jtNumero.getText().isEmpty() || jtMonto.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Complete el número y el monto.");
+                return;
+            }
+
+            int numero = Integer.parseInt(jtNumero.getText());
+            double monto = Double.parseDouble(jtMonto.getText());
+            String desc = jtDescripcion.getText();
+
+            // Validar duplicados (opcional, pero recomendado)
+            if(SistemaClinico.gestionFacturas.buscarFactura(numero) != null){
+                JOptionPane.showMessageDialog(this, "Ya existe una factura con ese número.");
+                return;
+            }
+
+            Factura nuevaFactura = new Factura(numero, desc, monto);
+            
+            String mensaje = SistemaClinico.gestionFacturas.crearFactura(nuevaFactura);
+            JOptionPane.showMessageDialog(this, mensaje);
+
+            if (!mensaje.startsWith("ERROR")) {
+                cargarTablaFacturas();
+                limpiarCampos();
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error: El Número debe ser entero y el Monto numérico.");
+        }
+    }//GEN-LAST:event_bAgregarActionPerformed
+
+    private void bVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVerActionPerformed
+        // TODO add your handling code here:
+        int fila = jtFacturas.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una factura.");
+            return;
+        }
+
+        int numero = Integer.parseInt(jtFacturas.getValueAt(fila, 0).toString());
+        Factura f = SistemaClinico.gestionFacturas.buscarFactura(numero);
+
+        if (f != null) {
+            jtNumero.setText(String.valueOf(f.getNumero()));
+            jtDescripcion.setText(f.getDescripcion());
+            jtMonto.setText(String.valueOf(f.getMonto()));
+
+            configurarCampos(false);
+        }
+    }//GEN-LAST:event_bVerActionPerformed
+
+    private void bModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarActionPerformed
+        // TODO add your handling code here:
+        if (bModificar.getText().equals("Modificar")) {
+            int fila = jtFacturas.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this, "Seleccione una factura para editar.");
+                return;
+            }
+            
+            // Cargar datos (reutilizamos lógica de Ver)
+            bVerActionPerformed(evt);
+            
+            // Habilitar campos editables (Monto y Descripción), pero NO el número
+            configurarCampos(true);
+            jtNumero.setEnabled(false); // Clave primaria no editable
+            
+            bModificar.setText("Guardar Cambios");
+            bAgregar.setEnabled(false);
+            bEliminar.setEnabled(false);
+            bVer.setEnabled(false);
+            
+        } else {
+            // GUARDAR CAMBIOS
+            try {
+                int numero = Integer.parseInt(jtNumero.getText());
+                double nuevoMonto = Double.parseDouble(jtMonto.getText());
+                String nuevaDesc = jtDescripcion.getText();
+                
+                String mensaje = SistemaClinico.gestionFacturas.modificarFactura(numero, nuevaDesc, nuevoMonto);
+                JOptionPane.showMessageDialog(this, mensaje);
+                
+                if (!mensaje.startsWith("ERROR")) {
+                    cargarTablaFacturas();
+                    limpiarCampos();
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Error en el formato del monto.");
+            }
+        }
+    }//GEN-LAST:event_bModificarActionPerformed
+
+    private void bEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarActionPerformed
+        // TODO add your handling code here:
+        try {
+            String textoEliminar = jtEliminarNumero.getText();
+            if(textoEliminar.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Escriba el N° de Factura a eliminar.");
+                return;
+            }
+            
+            int numero = Integer.parseInt(textoEliminar);
+            
+            int confirm = JOptionPane.showConfirmDialog(this, "¿Anular factura N° " + numero + "?");
+            if (confirm == JOptionPane.YES_OPTION) {
+                String mensaje = SistemaClinico.gestionFacturas.eliminarFactura(numero);
+                JOptionPane.showMessageDialog(this, mensaje);
+                
+                if (!mensaje.startsWith("ERROR")) {
+                    cargarTablaFacturas();
+                    jtEliminarNumero.setText("");
+                    limpiarCampos();
+                }
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El número de factura debe ser un entero.");
+        }
+    }//GEN-LAST:event_bEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bAgregar;
+    private javax.swing.JButton bEliminar;
+    private javax.swing.JButton bModificar;
+    private javax.swing.JButton bVer;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<String> jcbPacientes;
+    private javax.swing.JTextField jtDescripcion;
+    private javax.swing.JTextField jtEliminarNumero;
+    private javax.swing.JTable jtFacturas;
+    private javax.swing.JTextField jtMonto;
+    private javax.swing.JTextField jtNumero;
     // End of variables declaration//GEN-END:variables
 }

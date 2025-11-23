@@ -176,6 +176,11 @@ public class MenuDeOpciones extends javax.swing.JFrame {
 
         miFacturacion.setText("Facturacion");
         miFacturacion.setEnabled(false);
+        miFacturacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miFacturacionActionPerformed(evt);
+            }
+        });
         jMenu1.add(miFacturacion);
 
         jMenuBar1.add(jMenu1);
@@ -229,6 +234,12 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         gestorCitaPanel panelCitas = new gestorCitaPanel();
         mostrarPanel(panelCitas);
     }//GEN-LAST:event_miCitasActionPerformed
+
+    private void miFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miFacturacionActionPerformed
+        // TODO add your handling code here:
+        gestorFacturaPanel panelFactura = new gestorFacturaPanel();
+        mostrarPanel(panelFactura);
+    }//GEN-LAST:event_miFacturacionActionPerformed
 
     /**
      * @param args the command line arguments
