@@ -29,6 +29,8 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         
         configurarCampos(true);
         
+        cargarTablaConsultorios();
+        
         
        
 

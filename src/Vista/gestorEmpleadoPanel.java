@@ -32,6 +32,8 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
         modeloEmpl.addColumn("Rol");
         this.jtEmpleados.setModel(modeloEmpl);
         
+        cargarTablaEmpleados();
+        
     }
     
     public void limpiarCampos() {
