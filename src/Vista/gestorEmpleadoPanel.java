@@ -4,9 +4,9 @@
  */
 package Vista;
 
-import GestionDeEmpleados.Empleado;
-import GestionDeEmpleados.GestionEmpleados;
+import GestionDeEmpleados.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 import Vista.SistemaClinico;
 
 /**
@@ -29,10 +29,21 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
         modeloEmpl.addColumn("Telefono");
         modeloEmpl.addColumn("E-mail");
         modeloEmpl.addColumn("Usuario");
-        modeloEmpl.addColumn("Password");
         modeloEmpl.addColumn("Rol");
         this.jtEmpleados.setModel(modeloEmpl);
         
+    }
+    
+    public void limpiarCampos() {
+        jtDNI.setText("");
+        jtNombres.setText("");
+        jtApellidos.setText("");
+        jtTelefono.setText("");
+        jtEmail.setText("");
+        jtUsuario.setText("");
+        jtPassword.setText("");
+        jcbRol.setSelectedIndex(0);
+        jtDNI.setEnabled(true);
     }
     
     public void cargarTablaEmpleados() {
@@ -42,7 +53,7 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
         }
         
         Empleado[] arreglo = SistemaClinico.gestionEmpleados.listar();
-        String[] datos = new String[5];
+        String[] datos = new String[7];
         for (int i = 0; i < SistemaClinico.gestionEmpleados.cantidad(); i++) {
             datos[0] = String.valueOf(arreglo[i].getDni());
             datos[1] = arreglo[i].getNombre();
@@ -50,10 +61,24 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
             datos[3] = arreglo[i].getTelefono();
             datos[4] = arreglo[i].getEmail();
             datos[5] = arreglo[i].getUsuario();
-            datos[6] = arreglo[i].getPassword();
-            datos[7] = arreglo[i].getRol();
+            datos[6] = arreglo[i].getRol();
             
             modeloEmpl.addRow(datos);
+        }
+    }
+    
+    public void configurarCampos(boolean habilitar) {
+        jtDNI.setEnabled(habilitar);
+        jtNombres.setEnabled(habilitar);
+        jtApellidos.setEnabled(habilitar);
+        jtTelefono.setEnabled(habilitar);
+        jtEmail.setEnabled(habilitar);
+        jtUsuario.setEnabled(habilitar);
+        jtPassword.setEnabled(habilitar);
+        jcbRol.setEnabled(habilitar);
+
+        if (!habilitar) {
+            jcbEspecialidad.setEnabled(false);
         }
     }
 
@@ -68,13 +93,11 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jtConsultorios = new javax.swing.JTable();
-        bAgregar = new javax.swing.JToggleButton();
         bModificar = new javax.swing.JToggleButton();
         bEliminar = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtEmpleados = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        bVer = new javax.swing.JToggleButton();
         jlDNI = new javax.swing.JLabel();
         jtDNI = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -90,7 +113,11 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jtEmail = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jtPassword = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jcbEspecialidad = new javax.swing.JComboBox<>();
+        bAgregar = new javax.swing.JButton();
+        bVer = new javax.swing.JButton();
 
         jtConsultorios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -104,13 +131,6 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(jtConsultorios);
-
-        bAgregar.setText("Agregar");
-        bAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bAgregarActionPerformed(evt);
-            }
-        });
 
         bModificar.setText("Modificar");
 
@@ -136,8 +156,6 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
 
         jLabel1.setText("Datos Empleado");
 
-        bVer.setText("Ver");
-
         jlDNI.setText("DNI");
 
         jtDNI.addActionListener(new java.awt.event.ActionListener() {
@@ -154,7 +172,12 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
 
         jLabel5.setText("Usuario");
 
-        jcbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Cajero", "Empleado", "Medico", "Recepcionista" }));
+        jcbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Cajero", "Medico", "Recepcionista", "Enfermero" }));
+        jcbRol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbRolActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Telefono");
 
@@ -162,29 +185,55 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
 
         jLabel8.setText("Clave");
 
+        jLabel9.setText("Especialidad");
+
+        jcbEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin Especialidad", "Medicina General", "Pediatría", "Oftamología", "Cardiología", "Traumatología", "Psicología" }));
+        jcbEspecialidad.setEnabled(false);
+
+        bAgregar.setText("Agregar");
+        bAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAgregarActionPerformed(evt);
+            }
+        });
+
+        bVer.setText("Ver");
+        bVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bVerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bAgregar)
-                            .addComponent(jlDNI)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jlDNI)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel5))
+                                .addGap(42, 42, 42))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(bAgregar)
+                                .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(bModificar)
-                                .addGap(117, 117, 117))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,19 +242,21 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
                                     .addComponent(jtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jtEmail)
                                     .addComponent(jtUsuario)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(34, 34, 34)))
-                        .addComponent(jLabel4)))
-                .addGap(18, 18, 18)
-                .addComponent(jcbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel9)
+                            .addComponent(jcbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bVer)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
+                        .addGap(300, 300, 300)
                         .addComponent(bEliminar))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,21 +269,23 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jlDNI)
                             .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(jcbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(jtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
+                        .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(jtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(jtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -243,18 +296,17 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(40, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bAgregar)
-                        .addComponent(bModificar)
-                        .addComponent(bVer))
-                    .addComponent(bEliminar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bModificar)
+                    .addComponent(bEliminar)
+                    .addComponent(bAgregar)
+                    .addComponent(bVer))
                 .addGap(7, 7, 7))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -269,16 +321,107 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
 
     private void bAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAgregarActionPerformed
         // TODO add your handling code here:
-        
+        String dni = jtDNI.getText();
+        String nombre = jtNombres.getText();
+        String apellido = jtApellidos.getText();
+        String telefono = jtTelefono.getText();
+        String email = jtEmail.getText();
+        String usuario = jtUsuario.getText();
+        String password = jtPassword.getText();
+        String rol = (String) jcbRol.getSelectedItem();
 
+        Empleado nuevoEmpleado = null;
+
+        switch (rol) {
+            case "Medico":
+            String especialidad = (String) jcbEspecialidad.getSelectedItem();
+            if("Sin Especialidad".equals(especialidad) || especialidad == null){
+                JOptionPane.showMessageDialog(this, "Debe seleccionar una especialidad válida para el Médico.");
+                return;
+            }
+            nuevoEmpleado = new Medico(especialidad, dni, nombre, apellido, telefono, email, usuario, password, rol);
+            break;
+            case "Enfermero(a)":
+            case "Enfermera":
+            case "Enfermero":
+            nuevoEmpleado = new Enfermero(dni, nombre, apellido, telefono, email, usuario, password, rol);
+            break;
+            case "Cajero":
+            nuevoEmpleado = new Cajero(dni, nombre, apellido, telefono, email, usuario, password, rol);
+            break;
+            case "Administrador":
+            nuevoEmpleado = new Recepcionista(dni, nombre, apellido, telefono, email, usuario, password, rol);
+            break;
+            case "Recepcionista":
+            nuevoEmpleado = new Recepcionista(dni, nombre, apellido, telefono, email, usuario, password, rol);
+            break;
+            default:
+            javax.swing.JOptionPane.showMessageDialog(this, "Elige un rol");
+        }
+
+        String mensaje = SistemaClinico.gestionEmpleados.crearEmpleado(nuevoEmpleado);
+
+        JOptionPane.showMessageDialog(this, mensaje);
+        if (!mensaje.startsWith("ERROR")) {
+            cargarTablaEmpleados();
+            limpiarCampos();
+        }
     }//GEN-LAST:event_bAgregarActionPerformed
+
+    private void jcbRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbRolActionPerformed
+        // TODO add your handling code here:
+        String rolSeleccionado = (String) jcbRol.getSelectedItem();
+
+        if ("Medico".equals(rolSeleccionado)) {
+            jcbEspecialidad.setEnabled(true);
+        } else {
+            jcbEspecialidad.setEnabled(false);
+            jcbEspecialidad.setSelectedIndex(0); 
+        }
+    }//GEN-LAST:event_jcbRolActionPerformed
+
+    private void bVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVerActionPerformed
+        // TODO add your handling code here:
+        int filaSeleccionada = jtEmpleados.getSelectedRow();
+        if(filaSeleccionada == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un empleado.");
+            return;
+        }
+        
+        String dni = jtEmpleados.getValueAt(filaSeleccionada, 0).toString();
+        
+        Empleado empleadoEncontrado = SistemaClinico.gestionEmpleados.buscarPorDni(dni);
+        
+        if(empleadoEncontrado != null) {
+            jtDNI.setText(empleadoEncontrado.getDni());
+            jtNombres.setText(empleadoEncontrado.getNombre());
+            jtApellidos.setText(empleadoEncontrado.getApellido());
+            jtTelefono.setText(empleadoEncontrado.getTelefono());
+            jtEmail.setText(empleadoEncontrado.getEmail());
+            jtUsuario.setText(empleadoEncontrado.getUsuario());
+            jtPassword.setText(empleadoEncontrado.getPassword());
+            
+            jcbRol.setSelectedItem(empleadoEncontrado.getRol());
+            
+            if (empleadoEncontrado instanceof Medico) {
+                Medico medico = (Medico) empleadoEncontrado;
+                jcbEspecialidad.setEnabled(true);
+                jcbEspecialidad.setSelectedItem(medico.getEspecialidad());
+            } else {
+                jcbEspecialidad.setSelectedIndex(0); 
+            }
+            configurarCampos(false);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "No se encontró al empleado.");
+        }
+    }//GEN-LAST:event_bVerActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton bAgregar;
+    private javax.swing.JButton bAgregar;
     private javax.swing.JToggleButton bEliminar;
     private javax.swing.JToggleButton bModificar;
-    private javax.swing.JToggleButton bVer;
+    private javax.swing.JButton bVer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -287,9 +430,10 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> jcbEspecialidad;
     private javax.swing.JComboBox<String> jcbRol;
     private javax.swing.JLabel jlDNI;
     private javax.swing.JTextField jtApellidos;
@@ -298,6 +442,7 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
     private javax.swing.JTextField jtEmail;
     private javax.swing.JTable jtEmpleados;
     private javax.swing.JTextField jtNombres;
+    private javax.swing.JTextField jtPassword;
     private javax.swing.JTextField jtTelefono;
     private javax.swing.JTextField jtUsuario;
     // End of variables declaration//GEN-END:variables

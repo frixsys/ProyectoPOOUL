@@ -37,6 +37,10 @@ public abstract class Empleado extends Persona {
     public void setRol(String rol) {
         this.rol = rol;
     }
+
+    public String getEspecialidad() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
 }

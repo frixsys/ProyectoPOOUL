@@ -253,7 +253,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
 
         jCheckBox1.setText("de 10am a 11am");
 
-        jcbEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Medicina General", "Pediatría", "Oftamología", "Cardiología", "Traumatología", "Psicología" }));
+        jcbEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin Especialidad", "Medicina General", "Pediatría", "Oftamología", "Cardiología", "Traumatología", "Psicología" }));
         jcbEspecialidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbEspecialidadActionPerformed(evt);
@@ -481,6 +481,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         int cod = Integer.parseInt(this.jtEliminarCod.getText());
         SistemaClinico.gestionConsultorios.eliminarConsultorio(cod);
         cargarTablaConsultorios();
+        jtEliminarCod.setText("");
     }//GEN-LAST:event_bEliminarActionPerformed
 
 
