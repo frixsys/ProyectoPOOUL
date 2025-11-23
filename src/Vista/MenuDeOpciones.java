@@ -21,7 +21,6 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         switch (user.getRole()){
             case "Administrador":
                 this.miConsultas.setEnabled(true);
-                this.miReportes.setEnabled(true);
                 this.miPacientes.setEnabled(true);
                 this.miEmpleados.setEnabled(true);
                 this.miConsultorios.setEnabled(true);
@@ -30,7 +29,6 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 break;
             case "Médico":
                 this.miConsultas.setEnabled(true);
-                this.miReportes.setEnabled(false);
                 this.miPacientes.setEnabled(false);
                 this.miEmpleados.setEnabled(false);
                 this.miConsultorios.setEnabled(true);
@@ -39,7 +37,6 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 break;
             case "Enfermera":
                 this.miConsultas.setEnabled(false);
-                this.miReportes.setEnabled(false);
                 this.miPacientes.setEnabled(true);
                 this.miEmpleados.setEnabled(false);
                 this.miConsultorios.setEnabled(true);
@@ -48,7 +45,6 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 break;
             case "Cajero":
                 this.miConsultas.setEnabled(false);
-                this.miReportes.setEnabled(false);
                 this.miPacientes.setEnabled(false);
                 this.miEmpleados.setEnabled(false);
                 this.miConsultorios.setEnabled(false);
@@ -57,7 +53,6 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 break;
             case "Recepcionista":
                 this.miConsultas.setEnabled(false);
-                this.miReportes.setEnabled(false);
                 this.miPacientes.setEnabled(false);
                 this.miEmpleados.setEnabled(false);
                 this.miConsultorios.setEnabled(false);
@@ -100,9 +95,8 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         miEmpleados = new javax.swing.JMenuItem();
         miConsultorios = new javax.swing.JMenuItem();
-        miReportes = new javax.swing.JMenuItem();
-        miConsultas = new javax.swing.JMenuItem();
         miPacientes = new javax.swing.JMenuItem();
+        miConsultas = new javax.swing.JMenuItem();
         miCitas = new javax.swing.JMenuItem();
         miFacturacion = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -158,22 +152,18 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         });
         jMenu1.add(miConsultorios);
 
-        miReportes.setText("Reportes");
-        miReportes.setEnabled(false);
-        miReportes.addActionListener(new java.awt.event.ActionListener() {
+        miPacientes.setText("Pacientes");
+        miPacientes.setEnabled(false);
+        miPacientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miReportesActionPerformed(evt);
+                miPacientesActionPerformed(evt);
             }
         });
-        jMenu1.add(miReportes);
+        jMenu1.add(miPacientes);
 
         miConsultas.setText("Consultas");
         miConsultas.setEnabled(false);
         jMenu1.add(miConsultas);
-
-        miPacientes.setText("Pacientes");
-        miPacientes.setEnabled(false);
-        jMenu1.add(miPacientes);
 
         miCitas.setText("Citas");
         miCitas.setEnabled(false);
@@ -216,16 +206,18 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         mostrarPanel(panelEmpleados);
     }//GEN-LAST:event_miEmpleadosActionPerformed
 
-    private void miReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miReportesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_miReportesActionPerformed
-
     private void miConsultoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConsultoriosActionPerformed
         // TODO add your handling code here:
         gestorConsultorioPanel panelConsultorios = new gestorConsultorioPanel();
         
         mostrarPanel(panelConsultorios);
     }//GEN-LAST:event_miConsultoriosActionPerformed
+
+    private void miPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPacientesActionPerformed
+        // TODO add your handling code here:
+        gestorPacientePanel panelPacientes = new gestorPacientePanel();
+        mostrarPanel(panelPacientes);
+    }//GEN-LAST:event_miPacientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -278,6 +270,5 @@ public class MenuDeOpciones extends javax.swing.JFrame {
     private javax.swing.JMenuItem miEmpleados;
     private javax.swing.JMenuItem miFacturacion;
     private javax.swing.JMenuItem miPacientes;
-    private javax.swing.JMenuItem miReportes;
     // End of variables declaration//GEN-END:variables
 }

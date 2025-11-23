@@ -22,6 +22,14 @@ public class Paciente extends Persona{
         return FechaNacimiento;
     }
 
+    public void setFechaNacimiento(String FechaNacimiento) {
+        this.FechaNacimiento = FechaNacimiento;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
     public String getSexo() {
         return sexo;
     }

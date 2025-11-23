@@ -4,17 +4,91 @@
  */
 package Vista;
 
+import GestionDePacientes.Paciente;
+import Vista.SistemaClinico;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 /**
  *
  * @author santiago
  */
 public class gestorPacientePanel extends javax.swing.JPanel {
+    
+    private DefaultTableModel modeloPac;
 
     /**
      * Creates new form gestorPacientePanel
      */
     public gestorPacientePanel() {
         initComponents();
+        
+        modeloPac = new DefaultTableModel();
+
+        modeloPac.addColumn("DNI");
+        modeloPac.addColumn("Nombres");
+        modeloPac.addColumn("Apellidos");
+        modeloPac.addColumn("Teléfono");
+        modeloPac.addColumn("Email");
+        modeloPac.addColumn("F. Nacimiento");
+        modeloPac.addColumn("Sexo");
+        modeloPac.addColumn("Contacto Emergencia");
+        
+        this.jtPacientes.setModel(modeloPac);
+
+        cargarTablaPacientes();
+        
+        configurarCampos(true);
+    }
+    
+    public void cargarTablaPacientes() {
+        int filas = this.jtPacientes.getRowCount();
+        for (int i = 0; i < filas; i++) {
+            modeloPac.removeRow(0);
+        }
+
+        Paciente[] lista = SistemaClinico.gestionPacientes.listar();
+        String[] datos = new String[8];
+        
+        for (int i = 0; i < SistemaClinico.gestionPacientes.cantidad(); i++) {
+            datos[0] = lista[i].getDni();
+            datos[1] = lista[i].getNombre();
+            datos[2] = lista[i].getApellido();
+            datos[3] = lista[i].getTelefono();
+            datos[4] = lista[i].getEmail();
+            datos[5] = lista[i].getFechaNacimiento();
+            datos[6] = lista[i].getSexo();
+            datos[7] = lista[i].getContactoDeEmergencia();
+            
+            modeloPac.addRow(datos);
+        }
+    }
+    
+    public void configurarCampos(boolean habilitar) {
+        jtDNI.setEnabled(habilitar);
+        jtNombres.setEnabled(habilitar);
+        jtApellidos.setEnabled(habilitar);
+        jtTelefono.setEnabled(habilitar);
+        jtEmail.setEnabled(habilitar);
+        jtFechaNacimiento.setEnabled(habilitar);
+        jtContactoEmergencia.setEnabled(habilitar);
+        jcbSexo.setEnabled(habilitar);
+    }
+    
+    public void limpiarCampos() {
+        configurarCampos(true); // Habilitar todo
+        jtDNI.setText("");
+        jtNombres.setText("");
+        jtApellidos.setText("");
+        jtTelefono.setText("");
+        jtEmail.setText("");
+        jtFechaNacimiento.setText("");
+        jtContactoEmergencia.setText("");
+        jcbSexo.setSelectedIndex(0);
+
+        bModificar.setText("Modificar");
+        bAgregar.setEnabled(true);
+        bEliminar.setEnabled(true);
+        bVer.setEnabled(true);
     }
 
     /**
@@ -26,19 +100,393 @@ public class gestorPacientePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtEmpleados = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jtDNI = new javax.swing.JTextField();
+        jtextfield = new javax.swing.JLabel();
+        jtNombres = new javax.swing.JTextField();
+        jtextfield2 = new javax.swing.JLabel();
+        jtApellidos = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jtTelefono = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jtEmail = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jtFechaNacimiento = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jtContactoEmergencia = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jcbSexo = new javax.swing.JComboBox<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jtPacientes = new javax.swing.JTable();
+        bAgregar = new javax.swing.JButton();
+        bModificar = new javax.swing.JButton();
+        bVer = new javax.swing.JButton();
+        bEliminar = new javax.swing.JButton();
+        jtEliminarDNI = new javax.swing.JTextField();
+
+        jLabel1.setText("Datos Consultorio");
+
+        jtEmpleados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(jtEmpleados);
+
+        jLabel2.setText("Datos Pacientes");
+
+        jLabel3.setText("DNI");
+
+        jtDNI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtDNIActionPerformed(evt);
+            }
+        });
+
+        jtextfield.setText("Nombres");
+
+        jtextfield2.setText("Apellidos");
+
+        jLabel4.setText("Telefono");
+
+        jLabel5.setText("Email");
+
+        jLabel6.setText("Fecha de Nacimiento");
+
+        jLabel7.setText("Contacto Emergencia");
+
+        jLabel8.setText("Sexo");
+
+        jcbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
+
+        jtPacientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(jtPacientes);
+
+        bAgregar.setText("Agregar");
+        bAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAgregarActionPerformed(evt);
+            }
+        });
+
+        bModificar.setText("Modificar");
+        bModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bModificarActionPerformed(evt);
+            }
+        });
+
+        bVer.setText("Ver");
+        bVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bVerActionPerformed(evt);
+            }
+        });
+
+        bEliminar.setText("Eliminar");
+        bEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 997, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addGap(18, 18, 18)
+                            .addComponent(jtFechaNacimiento))
+                        .addComponent(jLabel2)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jtextfield)
+                                .addComponent(jtextfield2)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5))
+                            .addGap(46, 46, 46)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jtApellidos)
+                                .addComponent(jtNombres)
+                                .addComponent(jtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel8))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jcbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jtContactoEmergencia))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bAgregar)
+                        .addGap(18, 18, 18)
+                        .addComponent(bModificar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bVer)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jtEliminarDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bEliminar)))
+                .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 486, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtextfield)
+                            .addComponent(jtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtextfield2)
+                            .addComponent(jtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jtContactoEmergencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jcbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bAgregar)
+                            .addComponent(bModificar))
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(bEliminar)
+                                .addComponent(jtEliminarDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(bVer))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jtDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtDNIActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtDNIActionPerformed
+
+    private void bAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAgregarActionPerformed
+        // TODO add your handling code here:
+        String dni = jtDNI.getText();
+        String nombre = jtNombres.getText();
+        String apellido = jtApellidos.getText();
+        String telefono = jtTelefono.getText();
+        String email = jtEmail.getText();
+        String fechaNac = jtFechaNacimiento.getText();
+        String sexo = (String) jcbSexo.getSelectedItem();
+        String contactoEmergencia = jtContactoEmergencia.getText();
+
+        if (dni.isEmpty() || nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor complete al menos DNI y Nombre.");
+            return;
+        }
+
+        Paciente nuevoPaciente = new Paciente(fechaNac, sexo, contactoEmergencia, dni, nombre, apellido, telefono, email);
+
+        boolean exito = SistemaClinico.gestionPacientes.crearPaciente(nuevoPaciente);
+
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Paciente registrado correctamente.");
+            cargarTablaPacientes();
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "ERROR: No se pudo registrar. Verifique que el DNI tenga 8 dígitos o que no esté duplicado.");
+        }
+    }//GEN-LAST:event_bAgregarActionPerformed
+
+    private void bVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVerActionPerformed
+        // TODO add your handling code here:
+        int filaSeleccionada = jtPacientes.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un paciente de la tabla.");
+            return;
+        }
+
+        String dni = jtPacientes.getValueAt(filaSeleccionada, 0).toString();
+        Paciente p = SistemaClinico.gestionPacientes.buscar(dni);
+
+        if (p != null) {
+            jtDNI.setText(p.getDni());
+            jtNombres.setText(p.getNombre());
+            jtApellidos.setText(p.getApellido());
+            jtTelefono.setText(p.getTelefono());
+            jtEmail.setText(p.getEmail());
+            jtFechaNacimiento.setText(p.getFechaNacimiento());
+            jcbSexo.setSelectedItem(p.getSexo());
+            jtContactoEmergencia.setText(p.getContactoDeEmergencia());
+
+            configurarCampos(false);
+        }
+    }//GEN-LAST:event_bVerActionPerformed
+
+    private void bModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarActionPerformed
+        // TODO add your handling code here:
+        if (bModificar.getText().equals("Modificar")) {
+            
+            int fila = jtPacientes.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this, "Seleccione un paciente para modificar.");
+                return;
+            }
+            
+            String dni = jtPacientes.getValueAt(fila, 0).toString();
+            Paciente p = SistemaClinico.gestionPacientes.buscar(dni);
+            
+            if(p != null){
+                jtDNI.setText(p.getDni());
+                jtNombres.setText(p.getNombre());
+                jtApellidos.setText(p.getApellido());
+                jtTelefono.setText(p.getTelefono());
+                jtEmail.setText(p.getEmail());
+                jtFechaNacimiento.setText(p.getFechaNacimiento());
+                jcbSexo.setSelectedItem(p.getSexo());
+                jtContactoEmergencia.setText(p.getContactoDeEmergencia());
+                
+                // Habilitar todo MENOS DNI
+                configurarCampos(true);
+                jtDNI.setEnabled(false); 
+                
+                bModificar.setText("Guardar Cambios");
+                bAgregar.setEnabled(false);
+                bEliminar.setEnabled(false);
+                bVer.setEnabled(false);
+            }
+
+        } else {
+            String dni = jtDNI.getText();
+            Paciente p = SistemaClinico.gestionPacientes.buscar(dni);
+
+            if (p != null) {
+                boolean resultado = SistemaClinico.gestionPacientes.modificarPaciente(
+                        dni, 
+                        jtTelefono.getText(), 
+                        jtEmail.getText(), 
+                        jtContactoEmergencia.getText()
+                );
+
+                p.setNombre(jtNombres.getText());
+                p.setApellido(jtApellidos.getText());
+                p.setFechaNacimiento(jtFechaNacimiento.getText());
+
+                if (resultado) {
+                    JOptionPane.showMessageDialog(this, "Paciente modificado correctamente.");
+                    cargarTablaPacientes();
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al guardar cambios.");
+                }
+            }
+        }
+    }//GEN-LAST:event_bModificarActionPerformed
+
+    private void bEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarActionPerformed
+        // TODO add your handling code here:
+        String dni = jtEliminarDNI.getText();
+        if (dni.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el DNI a eliminar.");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Eliminar paciente con DNI " + dni + "?");
+        if (confirm == JOptionPane.YES_OPTION) {
+            boolean exito = SistemaClinico.gestionPacientes.eliminarPaciente(dni);
+            
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Paciente eliminado.");
+                cargarTablaPacientes();
+                jtEliminarDNI.setText("");
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Paciente no encontrado.");
+            }
+        }
+    }//GEN-LAST:event_bEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bAgregar;
+    private javax.swing.JButton bEliminar;
+    private javax.swing.JButton bModificar;
+    private javax.swing.JButton bVer;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JComboBox<String> jcbSexo;
+    private javax.swing.JTextField jtApellidos;
+    private javax.swing.JTextField jtContactoEmergencia;
+    private javax.swing.JTextField jtDNI;
+    private javax.swing.JTextField jtEliminarDNI;
+    private javax.swing.JTextField jtEmail;
+    private javax.swing.JTable jtEmpleados;
+    private javax.swing.JTextField jtFechaNacimiento;
+    private javax.swing.JTextField jtNombres;
+    private javax.swing.JTable jtPacientes;
+    private javax.swing.JTextField jtTelefono;
+    private javax.swing.JLabel jtextfield;
+    private javax.swing.JLabel jtextfield2;
     // End of variables declaration//GEN-END:variables
 }
