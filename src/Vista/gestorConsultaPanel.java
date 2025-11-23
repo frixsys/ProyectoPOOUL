@@ -8,12 +8,12 @@ package Vista;
  *
  * @author santiago
  */
-public class gestionConsultaPanel extends javax.swing.JPanel {
+public class gestorConsultaPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form gestionConsulta
      */
-    public gestionConsultaPanel() {
+    public gestorConsultaPanel() {
         initComponents();
     }
 

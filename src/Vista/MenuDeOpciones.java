@@ -226,7 +226,7 @@ public class MenuDeOpciones extends javax.swing.JFrame {
 
     private void miCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCitasActionPerformed
         // TODO add your handling code here:
-        gestionCitaPanel panelCitas = new gestionCitaPanel();
+        gestorCitaPanel panelCitas = new gestorCitaPanel();
         mostrarPanel(panelCitas);
     }//GEN-LAST:event_miCitasActionPerformed
 

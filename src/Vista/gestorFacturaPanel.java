@@ -8,12 +8,12 @@ package Vista;
  *
  * @author santiago
  */
-public class gestionFacturaPanel extends javax.swing.JPanel {
+public class gestorFacturaPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form gestionFacturaPanel
      */
-    public gestionFacturaPanel() {
+    public gestorFacturaPanel() {
         initComponents();
     }
 

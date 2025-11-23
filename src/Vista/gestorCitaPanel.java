@@ -16,14 +16,14 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author santiago
  */
-public class gestionCitaPanel extends javax.swing.JPanel {
+public class gestorCitaPanel extends javax.swing.JPanel {
     
     private DefaultTableModel modeloCitas;
 
     /**
      * Creates new form gestionCitaPanel
      */
-    public gestionCitaPanel() {
+    public gestorCitaPanel() {
         initComponents();
         modeloCitas = new DefaultTableModel();
 

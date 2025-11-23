@@ -30,10 +30,6 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         configurarCampos(true);
         
         cargarTablaConsultorios();
-        
-        
-       
-
     }
     
     public void cargarTablaConsultorios() {
@@ -59,7 +55,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         jtCodigo.setEnabled(habilitar);
         jcbEspecialidad.setEnabled(habilitar);
         jcbEstado.setEnabled(habilitar);
-        
+
         jCheckBox1.setEnabled(habilitar);
         jCheckBox2.setEnabled(habilitar);
         jCheckBox3.setEnabled(habilitar);
@@ -67,26 +63,6 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         jCheckBox6.setEnabled(habilitar);
         jCheckBox7.setEnabled(habilitar);
         jCheckBox8.setEnabled(habilitar);
-        
-        bAgregar.setEnabled(habilitar);
-        bModiciar.setEnabled(!habilitar);
-        bEliminar.setEnabled(habilitar);
-        bVer.setEnabled(!habilitar);
-        
-        bVer.setEnabled(true);
-        
-        if (habilitar) {
-            jtCodigo.setText("");
-            jcbEspecialidad.setSelectedIndex(0);
-            jcbEstado.setSelectedIndex(0);
-            jCheckBox1.setSelected(false);
-            jCheckBox2.setSelected(false);
-            jCheckBox3.setSelected(false);
-            jCheckBox4.setSelected(false);
-            jCheckBox6.setSelected(false);
-            jCheckBox7.setSelected(false);
-            jCheckBox8.setSelected(false);
-        }
         
     }
     
@@ -104,7 +80,24 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         jCheckBox6.setSelected(horario[4]);
         jCheckBox7.setSelected(horario[5]);
         jCheckBox8.setSelected(horario[6]);
-    }        
+    }
+    
+    public void limpiarCampos() {
+        jtCodigo.setText("");
+        jcbEspecialidad.setSelectedIndex(0);
+        jcbEstado.setSelectedIndex(0);
+
+        jCheckBox1.setSelected(false); jCheckBox2.setSelected(false);
+        jCheckBox3.setSelected(false); jCheckBox4.setSelected(false);
+        jCheckBox6.setSelected(false); jCheckBox7.setSelected(false);
+        jCheckBox8.setSelected(false);
+
+        configurarCampos(true);
+        bModiciar.setText("Modificar");
+        bAgregar.setEnabled(true);
+        bEliminar.setEnabled(true);
+        bVer.setEnabled(true);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -345,9 +338,15 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
 
             ref.setHorarioDisponible(horario);
             
-            SistemaClinico.gestionConsultorios.crearConsultorio(ref);
-            cargarTablaConsultorios();
-            configurarCampos(true);
+            String mensaje = SistemaClinico.gestionConsultorios.crearConsultorio(ref);
+
+            javax.swing.JOptionPane.showMessageDialog(this, mensaje);
+
+            if (!mensaje.startsWith("ERROR")) {
+                cargarTablaConsultorios();
+                limpiarCampos(); 
+            }
+            
         } catch (NumberFormatException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "El código debe ser un número entero.");
         }
@@ -467,8 +466,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
 
                 if (!mensaje.startsWith("ERROR")) {
                     cargarTablaConsultorios();
-                    configurarCampos(true); 
-                    bModiciar.setText("Modificar"); 
+                    limpiarCampos();
                 }
 
             } catch (NumberFormatException e) {
@@ -501,6 +499,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
                 if (!mensaje.startsWith("ERROR")) {
                     cargarTablaConsultorios();
                     jtEliminarCod.setText("");
+                    limpiarCampos();
                 }
             }
 
