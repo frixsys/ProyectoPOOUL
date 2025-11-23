@@ -200,14 +200,13 @@
     <Component class="javax.swing.JComboBox" name="jcbEspecialidad">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="7">
-            <StringItem index="0" value="Sin Especialidad"/>
-            <StringItem index="1" value="Medicina General"/>
-            <StringItem index="2" value="Pediatr&#xed;a"/>
-            <StringItem index="3" value="Oftamolog&#xed;a"/>
-            <StringItem index="4" value="Cardiolog&#xed;a"/>
-            <StringItem index="5" value="Traumatolog&#xed;a"/>
-            <StringItem index="6" value="Psicolog&#xed;a"/>
+          <StringArray count="6">
+            <StringItem index="0" value="Medicina General"/>
+            <StringItem index="1" value="Pediatr&#xed;a"/>
+            <StringItem index="2" value="Oftamolog&#xed;a"/>
+            <StringItem index="3" value="Cardiolog&#xed;a"/>
+            <StringItem index="4" value="Traumatolog&#xed;a"/>
+            <StringItem index="5" value="Psicolog&#xed;a"/>
           </StringArray>
         </Property>
       </Properties>

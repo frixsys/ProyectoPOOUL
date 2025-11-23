@@ -102,74 +102,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         jCheckBox6.setSelected(horario[4]);
         jCheckBox7.setSelected(horario[5]);
         jCheckBox8.setSelected(horario[6]);
-    }    
-    
-    private void guardarCambosModificacion(){
-        int cod = Integer.parseInt(jtCodigo.getText());
-        String nuevaEspecialidad = (String) jcbEspecialidad.getSelectedItem();
-        String nuevoEstado = (String) jcbEstado.getSelectedItem();
-
-        boolean[] nuevoHorario = new boolean[7];
-        nuevoHorario[0] = jCheckBox1.isSelected();
-        nuevoHorario[1] = jCheckBox2.isSelected();
-        nuevoHorario[2] = jCheckBox3.isSelected();
-        nuevoHorario[3] = jCheckBox4.isSelected();
-        nuevoHorario[4] = jCheckBox6.isSelected();
-        nuevoHorario[5] = jCheckBox7.isSelected();
-        nuevoHorario[6] = jCheckBox8.isSelected();
-
-        String mensaje = SistemaClinico.gestionConsultorios.modificarConsultorio(cod, nuevaEspecialidad, nuevoEstado);
-
-        Consultorio consultorioModificado = SistemaClinico.gestionConsultorios.buscar(cod);
-        if (consultorioModificado != null) {
-            consultorioModificado.setHorarioDisponible(nuevoHorario);
-        }
-
-        javax.swing.JOptionPane.showMessageDialog(this, mensaje + "\nHorario actualizado.");
-        bModiciar.setText("Modificar");
-
-        configurarCampos(true);
-        cargarTablaConsultorios();
-    }
-    
-    private void iniciarModificacion() {
-        int filaSeleccionada = jtConsultorios.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un consultorio de la tabla para modificarlo.");
-            return;
-        }
-
-        try {
-            Object valorTabla = jtConsultorios.getValueAt(filaSeleccionada, 0); 
-            int codigoConsultorio = Integer.parseInt(valorTabla.toString());
-            Consultorio consultorio = SistemaClinico.gestionConsultorios.buscar(codigoConsultorio);
-
-            if (consultorio != null) {
-        
-                cargarDatosDetalle(consultorio); 
-
-                jcbEspecialidad.setEnabled(true);
-                jcbEstado.setEnabled(true);
-                jCheckBox1.setEnabled(true);
-                jCheckBox2.setEnabled(true);
-                jCheckBox3.setEnabled(true);
-                jCheckBox4.setEnabled(true);
-                jCheckBox6.setEnabled(true);
-                jCheckBox7.setEnabled(true);
-                jCheckBox8.setEnabled(true);
-
-            
-                jtCodigo.setEnabled(false); 
-                bModiciar.setText("Guardar Cambios");
-                bAgregar.setEnabled(false);
-                bVer.setEnabled(false);
-                bEliminar.setEnabled(false);
-            }
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error de formato de código.");
-        }
-}
-
+    }        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -253,7 +186,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
 
         jCheckBox1.setText("de 10am a 11am");
 
-        jcbEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin Especialidad", "Medicina General", "Pediatría", "Oftamología", "Cardiología", "Traumatología", "Psicología" }));
+        jcbEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Medicina General", "Pediatría", "Oftamología", "Cardiología", "Traumatología", "Psicología" }));
         jcbEspecialidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbEspecialidadActionPerformed(evt);
@@ -468,20 +401,110 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
 
     private void bModiciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModiciarActionPerformed
         // TODO add your handling code here:
-        if (bModiciar.getText().equals("Guardar Cambios")) {
-            guardarCambosModificacion();
-        } 
-        else if (bModiciar.getText().equals("Modificar")) {
-            iniciarModificacion();
+        if (bModiciar.getText().equals("Modificar")) {
+
+            int filaSeleccionada = jtConsultorios.getSelectedRow();
+            if (filaSeleccionada == -1) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un consultorio de la tabla para modificar.");
+                return;
+            }
+
+            try {
+                Object valorTabla = jtConsultorios.getValueAt(filaSeleccionada, 0);
+                int codigoConsultorio = Integer.parseInt(valorTabla.toString());
+
+                Consultorio c = SistemaClinico.gestionConsultorios.buscar(codigoConsultorio);
+
+                if (c != null) {
+                    cargarDatosDetalle(c);
+
+                    jtCodigo.setEnabled(false); 
+
+                    jcbEspecialidad.setEnabled(true);
+                    jcbEstado.setEnabled(true);
+
+                    jCheckBox1.setEnabled(true); 
+                    jCheckBox2.setEnabled(true);
+                    jCheckBox3.setEnabled(true); 
+                    jCheckBox4.setEnabled(true);
+                    jCheckBox6.setEnabled(true); 
+                    jCheckBox7.setEnabled(true);
+                    jCheckBox8.setEnabled(true);
+
+                    bModiciar.setText("Guardar Cambios");
+                    bAgregar.setEnabled(false); 
+                    bEliminar.setEnabled(false);
+                    bVer.setEnabled(false);
+                }
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar los datos para modificar.");
+            }
+        } else {
+            try {
+                int cod = Integer.parseInt(jtCodigo.getText());
+                String nuevaEspecialidad = (String) jcbEspecialidad.getSelectedItem();
+                String nuevoEstado = (String) jcbEstado.getSelectedItem();
+
+                String mensaje = SistemaClinico.gestionConsultorios.modificarConsultorio(cod, nuevaEspecialidad, nuevoEstado);
+
+                Consultorio c = SistemaClinico.gestionConsultorios.buscar(cod);
+                if (c != null) {
+                    boolean[] nuevoHorario = new boolean[7];
+                    nuevoHorario[0] = jCheckBox1.isSelected();
+                    nuevoHorario[1] = jCheckBox2.isSelected();
+                    nuevoHorario[2] = jCheckBox3.isSelected();
+                    nuevoHorario[3] = jCheckBox4.isSelected();
+                    nuevoHorario[4] = jCheckBox6.isSelected();
+                    nuevoHorario[5] = jCheckBox7.isSelected();
+                    nuevoHorario[6] = jCheckBox8.isSelected();
+
+                    c.setHorarioDisponible(nuevoHorario);
+                }
+
+                javax.swing.JOptionPane.showMessageDialog(this, mensaje);
+
+                if (!mensaje.startsWith("ERROR")) {
+                    cargarTablaConsultorios();
+                    configurarCampos(true); 
+                    bModiciar.setText("Modificar"); 
+                }
+
+            } catch (NumberFormatException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error en los datos numéricos.");
+            }
         }
     }//GEN-LAST:event_bModiciarActionPerformed
 
     private void bEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarActionPerformed
 
-        int cod = Integer.parseInt(this.jtEliminarCod.getText());
-        SistemaClinico.gestionConsultorios.eliminarConsultorio(cod);
-        cargarTablaConsultorios();
-        jtEliminarCod.setText("");
+        try {
+            String codigoTexto = jtEliminarCod.getText();
+
+            if(codigoTexto.isEmpty()) {
+                 javax.swing.JOptionPane.showMessageDialog(this, "Ingrese el código del consultorio a eliminar en el recuadro.");
+                 return;
+            }
+
+            int cod = Integer.parseInt(codigoTexto);
+
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+                    "¿Está seguro de eliminar el consultorio " + cod + "?",
+                    "Confirmar Eliminación", javax.swing.JOptionPane.YES_NO_OPTION);
+
+            if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                String mensaje = SistemaClinico.gestionConsultorios.eliminarConsultorio(cod);
+
+                javax.swing.JOptionPane.showMessageDialog(this, mensaje);
+
+                if (!mensaje.startsWith("ERROR")) {
+                    cargarTablaConsultorios();
+                    jtEliminarCod.setText("");
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "El código debe ser un número entero.");
+        }
     }//GEN-LAST:event_bEliminarActionPerformed
 
 

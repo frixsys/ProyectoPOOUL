@@ -11,6 +11,10 @@ public class Medico extends Empleado {
         this.especialidad = especialidad;
     }
 
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+    
     public String getEspecialidad() { 
         return especialidad; 
     }

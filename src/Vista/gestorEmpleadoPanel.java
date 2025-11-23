@@ -43,7 +43,10 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
         jtUsuario.setText("");
         jtPassword.setText("");
         jcbRol.setSelectedIndex(0);
-        jtDNI.setEnabled(true);
+        jcbEspecialidad.setSelectedIndex(0);
+        
+        configurarCampos(true); 
+        jcbEspecialidad.setEnabled(false); 
     }
     
     public void cargarTablaEmpleados() {
@@ -68,19 +71,20 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
     }
     
     public void configurarCampos(boolean habilitar) {
-        jtDNI.setEnabled(habilitar);
-        jtNombres.setEnabled(habilitar);
-        jtApellidos.setEnabled(habilitar);
-        jtTelefono.setEnabled(habilitar);
-        jtEmail.setEnabled(habilitar);
-        jtUsuario.setEnabled(habilitar);
-        jtPassword.setEnabled(habilitar);
-        jcbRol.setEnabled(habilitar);
+       jtDNI.setEnabled(habilitar); 
+       jtNombres.setEnabled(habilitar);
+       jtApellidos.setEnabled(habilitar);
+       jtTelefono.setEnabled(habilitar);
+       jtEmail.setEnabled(habilitar);
+       jtUsuario.setEnabled(habilitar);
+       jtPassword.setEnabled(habilitar);
+       jcbRol.setEnabled(habilitar);
 
-        if (!habilitar) {
-            jcbEspecialidad.setEnabled(false);
-        }
+       if (!habilitar) {
+           jcbEspecialidad.setEnabled(false);
+       }
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -93,8 +97,6 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jtConsultorios = new javax.swing.JTable();
-        bModificar = new javax.swing.JToggleButton();
-        bEliminar = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtEmpleados = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -118,6 +120,9 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
         jcbEspecialidad = new javax.swing.JComboBox<>();
         bAgregar = new javax.swing.JButton();
         bVer = new javax.swing.JButton();
+        bModificar = new javax.swing.JButton();
+        bEliminar = new javax.swing.JButton();
+        jtEliminarDNI = new javax.swing.JTextField();
 
         jtConsultorios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -131,15 +136,6 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(jtConsultorios);
-
-        bModificar.setText("Modificar");
-
-        bEliminar.setText("Eliminar");
-        bEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bEliminarActionPerformed(evt);
-            }
-        });
 
         jtEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -204,6 +200,20 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
             }
         });
 
+        bModificar.setText("Modificar");
+        bModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bModificarActionPerformed(evt);
+            }
+        });
+
+        bEliminar.setText("Eliminar");
+        bEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -232,9 +242,6 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(bModificar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jtNombres)
@@ -243,17 +250,20 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
                                     .addComponent(jtEmail)
                                     .addComponent(jtUsuario)
                                     .addComponent(jtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(34, 34, 34)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel9)
-                            .addComponent(jcbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcbEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(34, 34, 34)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jcbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jcbEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(bModificar))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bVer)
-                        .addGap(300, 300, 300)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jtEliminarDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bEliminar))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
@@ -303,17 +313,14 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bAgregar)
+                    .addComponent(bVer)
                     .addComponent(bModificar)
                     .addComponent(bEliminar)
-                    .addComponent(bAgregar)
-                    .addComponent(bVer))
+                    .addComponent(jtEliminarDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bEliminarActionPerformed
 
     private void jtDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtDNIActionPerformed
         // TODO add your handling code here:
@@ -350,7 +357,7 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
             nuevoEmpleado = new Cajero(dni, nombre, apellido, telefono, email, usuario, password, rol);
             break;
             case "Administrador":
-            nuevoEmpleado = new Recepcionista(dni, nombre, apellido, telefono, email, usuario, password, rol);
+            nuevoEmpleado = new Administrador(dni, nombre, apellido, telefono, email, usuario, password, rol);
             break;
             case "Recepcionista":
             nuevoEmpleado = new Recepcionista(dni, nombre, apellido, telefono, email, usuario, password, rol);
@@ -416,11 +423,115 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_bVerActionPerformed
 
+    private void bEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarActionPerformed
+        // TODO add your handling code here:
+        String dniEliminar = jtEliminarDNI.getText();
+
+        if (dniEliminar.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el DNI del empleado a eliminar en el recuadro.");
+            return;
+        }
+
+        Empleado e = SistemaClinico.gestionEmpleados.buscarPorDni(dniEliminar);
+
+        if (e != null) {
+            int confirm = JOptionPane.showConfirmDialog(this, 
+                    "¿Está seguro de eliminar a " + e.getNombre() + " " + e.getApellido() + "?",
+                    "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                SistemaClinico.gestionEmpleados.eliminarEmpleado(dniEliminar);
+
+                JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente.");
+                cargarTablaEmpleados();
+                jtEliminarDNI.setText("");
+                limpiarCampos();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "ERROR: No se encontró un empleado con ese DNI.");
+        }
+    }//GEN-LAST:event_bEliminarActionPerformed
+
+    private void bModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarActionPerformed
+        // TODO add your handling code here:
+        if (bModificar.getText().equals("Modificar")) {
+            int filaSeleccionada = jtEmpleados.getSelectedRow();
+            if (filaSeleccionada == -1) {
+                JOptionPane.showMessageDialog(this, "Seleccione un empleado de la tabla para modificar.");
+                return;
+            }
+
+            String dni = jtEmpleados.getValueAt(filaSeleccionada, 0).toString();
+
+            Empleado e = SistemaClinico.gestionEmpleados.buscarPorDni(dni);
+
+            if (e != null) {
+                jtDNI.setText(e.getDni());
+                jtNombres.setText(e.getNombre());
+                jtApellidos.setText(e.getApellido());
+                jtTelefono.setText(e.getTelefono());
+                jtEmail.setText(e.getEmail());
+                jtUsuario.setText(e.getUsuario());
+                jtPassword.setText(e.getPassword());
+                jcbRol.setSelectedItem(e.getRol());
+
+                if (e instanceof Medico) {
+                    jcbEspecialidad.setEnabled(true);
+                    jcbEspecialidad.setSelectedItem(((Medico) e).getEspecialidad());
+                } else {
+                    jcbEspecialidad.setEnabled(false);
+                }
+
+                configurarCampos(true); 
+                jtDNI.setEnabled(false);
+
+                bModificar.setText("Guardar Cambios");
+                bAgregar.setEnabled(false);
+                bEliminar.setEnabled(false);
+                bVer.setEnabled(false);
+            }
+
+        } else {
+
+            String dni = jtDNI.getText();
+            Empleado e = SistemaClinico.gestionEmpleados.buscarPorDni(dni);
+
+            if (e != null) {
+                String nuevoTelefono = jtTelefono.getText();
+                String nuevoEmail = jtEmail.getText();
+                String mensaje = SistemaClinico.gestionEmpleados.modificarEmpleado(dni, nuevoTelefono, nuevoEmail);
+
+                e.setNombre(jtNombres.getText());
+                e.setApellido(jtApellidos.getText());
+                e.setUsuario(jtUsuario.getText());
+                e.setPassword(jtPassword.getText());
+                e.setRol((String) jcbRol.getSelectedItem());
+
+                if (e instanceof Medico && "Medico".equals(jcbRol.getSelectedItem())) {
+                     ((Medico) e).setEspecialidad((String) jcbEspecialidad.getSelectedItem());
+                }
+
+                JOptionPane.showMessageDialog(this, "Datos actualizados correctamente.");
+
+                cargarTablaEmpleados();
+                limpiarCampos();
+
+                bModificar.setText("Modificar");
+                bAgregar.setEnabled(true);
+                bEliminar.setEnabled(true);
+                bVer.setEnabled(true);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: No se encontró el empleado original.");
+            }
+        }
+    }//GEN-LAST:event_bModificarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAgregar;
-    private javax.swing.JToggleButton bEliminar;
-    private javax.swing.JToggleButton bModificar;
+    private javax.swing.JButton bEliminar;
+    private javax.swing.JButton bModificar;
     private javax.swing.JButton bVer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -439,6 +550,7 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
     private javax.swing.JTextField jtApellidos;
     private javax.swing.JTable jtConsultorios;
     private javax.swing.JTextField jtDNI;
+    private javax.swing.JTextField jtEliminarDNI;
     private javax.swing.JTextField jtEmail;
     private javax.swing.JTable jtEmpleados;
     private javax.swing.JTextField jtNombres;

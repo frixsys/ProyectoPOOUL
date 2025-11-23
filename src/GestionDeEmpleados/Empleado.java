@@ -25,6 +25,10 @@ public abstract class Empleado extends Persona {
     
     public String getUsuario(){  
         return Usuario; }
+
+    public void setUsuario(String Usuario) {
+        this.Usuario = Usuario;
+    }
     
     public String getPassword() { 
         return password; 
