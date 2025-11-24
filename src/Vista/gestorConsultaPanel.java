@@ -175,8 +175,6 @@ public class gestorConsultaPanel extends javax.swing.JPanel {
 
         jLabel6.setText("Citas Pendientes");
 
-        jcbCitasPendientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel7.setText("S/");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

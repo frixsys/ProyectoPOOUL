@@ -26,6 +26,7 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 this.miConsultorios.setEnabled(true);
                 this.miCitas.setEnabled(true);
                 this.miFacturacion.setEnabled(true);
+                this.miReportes.setEnabled(true);
                 break;
             case "Médico":
                 this.miConsultas.setEnabled(true);
@@ -34,6 +35,7 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 this.miConsultorios.setEnabled(true);
                 this.miCitas.setEnabled(true);
                 this.miFacturacion.setEnabled(true);
+                this.miReportes.setEnabled(false);
                 break;
             case "Enfermera":
                 this.miConsultas.setEnabled(false);
@@ -42,6 +44,7 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 this.miConsultorios.setEnabled(true);
                 this.miCitas.setEnabled(true);
                 this.miFacturacion.setEnabled(true);
+                this.miReportes.setEnabled(false);
                 break;
             case "Cajero":
                 this.miConsultas.setEnabled(false);
@@ -50,6 +53,7 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 this.miConsultorios.setEnabled(false);
                 this.miCitas.setEnabled(false);
                 this.miFacturacion.setEnabled(true);
+                this.miReportes.setEnabled(false);
                 break;
             case "Recepcionista":
                 this.miConsultas.setEnabled(false);
@@ -58,6 +62,7 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 this.miConsultorios.setEnabled(false);
                 this.miCitas.setEnabled(true);
                 this.miFacturacion.setEnabled(true);
+                this.miReportes.setEnabled(false);
                 break;
         }
     }
@@ -99,6 +104,7 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         miConsultas = new javax.swing.JMenuItem();
         miCitas = new javax.swing.JMenuItem();
         miFacturacion = new javax.swing.JMenuItem();
+        miReportes = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jmCerrarSesion = new javax.swing.JMenuItem();
 
@@ -188,6 +194,15 @@ public class MenuDeOpciones extends javax.swing.JFrame {
             }
         });
         jMenu1.add(miFacturacion);
+
+        miReportes.setText("Reportes");
+        miReportes.setEnabled(false);
+        miReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miReportesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(miReportes);
 
         jMenuBar1.add(jMenu1);
 
@@ -279,6 +294,12 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         mostrarPanel(panelConsulta);
     }//GEN-LAST:event_miConsultasActionPerformed
 
+    private void miReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miReportesActionPerformed
+        // TODO add your handling code here:
+        gestorReportePanel panelReportes = new gestorReportePanel();
+        mostrarPanel(panelReportes);
+    }//GEN-LAST:event_miReportesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -331,5 +352,6 @@ public class MenuDeOpciones extends javax.swing.JFrame {
     private javax.swing.JMenuItem miEmpleados;
     private javax.swing.JMenuItem miFacturacion;
     private javax.swing.JMenuItem miPacientes;
+    private javax.swing.JMenuItem miReportes;
     // End of variables declaration//GEN-END:variables
 }

@@ -105,8 +105,7 @@ public class gestorCitaPanel extends javax.swing.JPanel {
         bAgregar.setEnabled(true);
         bEliminar.setEnabled(true);
     }
-    
-    // Método útil para separar el ID del texto del ComboBox (ej: "12345678 - Juan" -> "12345678")
+
     private String obtenerIdDeCombo(String textoCombo) {
         if (textoCombo == null) return "";
         return textoCombo.split(" - ")[0]; 
@@ -156,15 +155,9 @@ public class gestorCitaPanel extends javax.swing.JPanel {
 
         textPacientes.setText("Pacientes");
 
-        jcbPacientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         textMedicos.setText("Medicos");
 
-        jcbMedicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel3.setText("Consultorios");
-
-        jcbConsultorios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel4.setText("Estado");
 

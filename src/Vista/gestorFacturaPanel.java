@@ -127,8 +127,6 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
 
         jLabel5.setText("Pacientes");
 
-        jcbPacientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         bAgregar.setText("Agregar");
         bAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
