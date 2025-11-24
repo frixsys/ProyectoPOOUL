@@ -92,17 +92,18 @@ public class gestorCitaPanel extends javax.swing.JPanel {
     }
 
     public void limpiarCampos() {
-        configurarCampos(true);
         jtFecha.setText("");
         if(jcbPacientes.getItemCount() > 0) jcbPacientes.setSelectedIndex(0);
         if(jcbMedicos.getItemCount() > 0) jcbMedicos.setSelectedIndex(0);
         if(jcbConsultorios.getItemCount() > 0) jcbConsultorios.setSelectedIndex(0);
         jcbEstado.setSelectedIndex(0);
         
+        configurarCampos(true);
+        
+        bVer.setText("Ver");
         bModificar.setText("Modificar");
         bAgregar.setEnabled(true);
         bEliminar.setEnabled(true);
-        bVer.setEnabled(true);
     }
     
     // Método útil para separar el ID del texto del ComboBox (ej: "12345678 - Juan" -> "12345678")
@@ -323,28 +324,33 @@ public class gestorCitaPanel extends javax.swing.JPanel {
 
     private void bVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVerActionPerformed
         // TODO add your handling code here:
-        int fila = jtCitas.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una cita.");
-            return;
-        }
+        if (bVer.getText().equals("Ver")) {
+            int fila = jtCitas.getSelectedRow();
+            if (fila == -1) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Seleccione una cita.");
+                return;
+            }
 
-        Cita[] lista = SistemaClinico.gestionCitas.listar();
-        Cita c = lista[fila]; 
-        
-        if (c != null) {
-            jtFecha.setText(c.getFechaHora());
-            jcbEstado.setSelectedItem(c.getEstado());
+            Cita[] lista = SistemaClinico.gestionCitas.listar();
+            Cita c = lista[fila];
 
-            String matchPaciente = c.getPaciente().getDni();
-            String matchMedico = c.getMedico().getDni();
-            String matchConsul = String.valueOf(c.getConsultorio().getCodigo());
-            
-            seleccionarEnCombo(jcbPacientes, matchPaciente);
-            seleccionarEnCombo(jcbMedicos, matchMedico);
-            seleccionarEnCombo(jcbConsultorios, matchConsul);
-            
-            configurarCampos(false);
+            if (c != null) {
+                jtFecha.setText(c.getFechaHora());
+                jcbEstado.setSelectedItem(c.getEstado());
+                
+                seleccionarEnCombo(jcbPacientes, c.getPaciente().getDni());
+                seleccionarEnCombo(jcbMedicos, c.getMedico().getDni());
+                seleccionarEnCombo(jcbConsultorios, String.valueOf(c.getConsultorio().getCodigo()));
+
+                configurarCampos(false);
+                
+                bVer.setText("Dejar de ver");
+                bAgregar.setEnabled(false);
+                bEliminar.setEnabled(false);
+                bModificar.setEnabled(false);
+            }
+        } else {
+            limpiarCampos();
         }
     }//GEN-LAST:event_bVerActionPerformed
 

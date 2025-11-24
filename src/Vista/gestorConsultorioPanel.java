@@ -86,17 +86,18 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         jtCodigo.setText("");
         jcbEspecialidad.setSelectedIndex(0);
         jcbEstado.setSelectedIndex(0);
-
+        
         jCheckBox1.setSelected(false); jCheckBox2.setSelected(false);
         jCheckBox3.setSelected(false); jCheckBox4.setSelected(false);
         jCheckBox6.setSelected(false); jCheckBox7.setSelected(false);
         jCheckBox8.setSelected(false);
 
         configurarCampos(true);
-        bModiciar.setText("Modificar");
+
+        bVer.setText("Ver");
+        bModificar.setText("Modificar");
         bAgregar.setEnabled(true);
         bEliminar.setEnabled(true);
-        bVer.setEnabled(true);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -112,7 +113,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
         bAgregar = new javax.swing.JButton();
         bEliminar = new javax.swing.JButton();
         bVer = new javax.swing.JButton();
-        bModiciar = new javax.swing.JButton();
+        bModificar = new javax.swing.JButton();
         jtCodigo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
@@ -164,10 +165,10 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
             }
         });
 
-        bModiciar.setText("Modificar");
-        bModiciar.addActionListener(new java.awt.event.ActionListener() {
+        bModificar.setText("Modificar");
+        bModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bModiciarActionPerformed(evt);
+                bModificarActionPerformed(evt);
             }
         });
 
@@ -252,7 +253,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bAgregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bModiciar)))
+                        .addComponent(bModificar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -307,7 +308,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bEliminar)
                     .addComponent(bVer)
-                    .addComponent(bModiciar)
+                    .addComponent(bModificar)
                     .addComponent(bAgregar)
                     .addComponent(jtEliminarCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(23, Short.MAX_VALUE))
@@ -373,36 +374,39 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
 
     private void bVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVerActionPerformed
         // TODO add your handling code here:
-        int filaSeleccionada =jtConsultorios.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un consultorio de la tabla para ver horarios.");
-            return;
-        }
-        
-        try {
-            Object valorTabla = jtConsultorios.getValueAt(filaSeleccionada, 0);
-            String codigoStr = valorTabla.toString();
-
-            int codigoConsultorio = Integer.parseInt(codigoStr);
-            Consultorio consultorio = SistemaClinico.gestionConsultorios.buscar(codigoConsultorio);
-
-            if(consultorio != null){
-                cargarDatosDetalle(consultorio);
-                configurarCampos(false);
-                this.revalidate();
-                this.repaint();
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "No se pudo encontrar el consultorio.");
+        if (bVer.getText().equals("Ver")) {
+            int fila = jtConsultorios.getSelectedRow();
+            if (fila == -1) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un consultorio.");
+                return;
             }
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Inserta un numero entero.");
+
+            try {
+                Object valor = jtConsultorios.getValueAt(fila, 0);
+                int codigo = Integer.parseInt(valor.toString());
+                Consultorio c = SistemaClinico.gestionConsultorios.buscar(codigo);
+
+                if (c != null) {
+                    cargarDatosDetalle(c);
+                    configurarCampos(false);
+                    
+                    bVer.setText("Dejar de ver");
+                    bAgregar.setEnabled(false);
+                    bEliminar.setEnabled(false);
+                    bModificar.setEnabled(false);
+                }
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar.");
+            }
+        } else {
+            limpiarCampos();
         }
         
     }//GEN-LAST:event_bVerActionPerformed
 
-    private void bModiciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModiciarActionPerformed
+    private void bModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarActionPerformed
         // TODO add your handling code here:
-        if (bModiciar.getText().equals("Modificar")) {
+        if (bModificar.getText().equals("Modificar")) {
 
             int filaSeleccionada = jtConsultorios.getSelectedRow();
             if (filaSeleccionada == -1) {
@@ -432,7 +436,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
                     jCheckBox7.setEnabled(true);
                     jCheckBox8.setEnabled(true);
 
-                    bModiciar.setText("Guardar Cambios");
+                    bModificar.setText("Guardar Cambios");
                     bAgregar.setEnabled(false); 
                     bEliminar.setEnabled(false);
                     bVer.setEnabled(false);
@@ -473,7 +477,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
                 javax.swing.JOptionPane.showMessageDialog(this, "Error en los datos numéricos.");
             }
         }
-    }//GEN-LAST:event_bModiciarActionPerformed
+    }//GEN-LAST:event_bModificarActionPerformed
 
     private void bEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarActionPerformed
 
@@ -512,7 +516,7 @@ public class gestorConsultorioPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAgregar;
     private javax.swing.JButton bEliminar;
-    private javax.swing.JButton bModiciar;
+    private javax.swing.JButton bModificar;
     private javax.swing.JButton bVer;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;

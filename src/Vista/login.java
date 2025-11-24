@@ -7,7 +7,6 @@ package Vista;
 import Vista.SistemaClinico;
 import Controller.gestorUsuarios;
 import GestionDeEmpleados.Empleado;
-import Model.Usuario;
 import javax.swing.JOptionPane;
 
 /**

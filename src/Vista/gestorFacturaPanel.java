@@ -8,7 +8,6 @@ import GestionDeFacturacion.Factura;
 import GestionDePacientes.Paciente;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
-import javax.swing.DefaultComboBoxModel;
 /**
  *
  * @author santiago
@@ -50,7 +49,6 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
         
         Paciente[] lista = SistemaClinico.gestionPacientes.listar();
         for(int i=0; i < SistemaClinico.gestionPacientes.cantidad(); i++){
-            // Formato: DNI - Nombre
             jcbPacientes.addItem(lista[i].getDni() + " - " + lista[i].getNombre() + " " + lista[i].getApellido());
         }
     }
@@ -117,6 +115,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
         bVer = new javax.swing.JButton();
         bEliminar = new javax.swing.JButton();
         jtEliminarNumero = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
 
         jLabel1.setText("Datos Facturas");
 
@@ -171,6 +170,8 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel6.setText("S/");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -189,7 +190,10 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jcbPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel6))
                             .addComponent(jtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bAgregar)
@@ -221,7 +225,8 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
@@ -259,7 +264,6 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
             double monto = Double.parseDouble(jtMonto.getText());
             String desc = jtDescripcion.getText();
 
-            // Validar duplicados (opcional, pero recomendado)
             if(SistemaClinico.gestionFacturas.buscarFactura(numero) != null){
                 JOptionPane.showMessageDialog(this, "Ya existe una factura con ese número.");
                 return;
@@ -282,21 +286,30 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
 
     private void bVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVerActionPerformed
         // TODO add your handling code here:
-        int fila = jtFacturas.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una factura.");
-            return;
-        }
+        if (bVer.getText().equals("Ver")) {
+            int fila = jtFacturas.getSelectedRow();
+            if (fila == -1) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Seleccione una factura.");
+                return;
+            }
 
-        int numero = Integer.parseInt(jtFacturas.getValueAt(fila, 0).toString());
-        Factura f = SistemaClinico.gestionFacturas.buscarFactura(numero);
+            int numero = Integer.parseInt(jtFacturas.getValueAt(fila, 0).toString());
+            Factura f = SistemaClinico.gestionFacturas.buscarFactura(numero);
 
-        if (f != null) {
-            jtNumero.setText(String.valueOf(f.getNumero()));
-            jtDescripcion.setText(f.getDescripcion());
-            jtMonto.setText(String.valueOf(f.getMonto()));
-
-            configurarCampos(false);
+            if (f != null) {
+                jtNumero.setText(String.valueOf(f.getNumero()));
+                jtDescripcion.setText(f.getDescripcion());
+                jtMonto.setText(String.valueOf(f.getMonto()));
+                
+                configurarCampos(false);
+                
+                bVer.setText("Dejar de ver");
+                bAgregar.setEnabled(false);
+                bEliminar.setEnabled(false);
+                bModificar.setEnabled(false);
+            }
+        } else {
+            limpiarCampos();
         }
     }//GEN-LAST:event_bVerActionPerformed
 
@@ -308,13 +321,11 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Seleccione una factura para editar.");
                 return;
             }
-            
-            // Cargar datos (reutilizamos lógica de Ver)
+
             bVerActionPerformed(evt);
-            
-            // Habilitar campos editables (Monto y Descripción), pero NO el número
+
             configurarCampos(true);
-            jtNumero.setEnabled(false); // Clave primaria no editable
+            jtNumero.setEnabled(false);
             
             bModificar.setText("Guardar Cambios");
             bAgregar.setEnabled(false);
@@ -322,7 +333,6 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
             bVer.setEnabled(false);
             
         } else {
-            // GUARDAR CAMBIOS
             try {
                 int numero = Integer.parseInt(jtNumero.getText());
                 double nuevoMonto = Double.parseDouble(jtMonto.getText());
@@ -379,6 +389,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox<String> jcbPacientes;
     private javax.swing.JTextField jtDescripcion;

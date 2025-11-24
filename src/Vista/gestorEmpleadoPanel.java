@@ -45,10 +45,15 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
         jtUsuario.setText("");
         jtPassword.setText("");
         jcbRol.setSelectedIndex(0);
-        jcbEspecialidad.setSelectedIndex(0);
+        if(jcbEspecialidad.getItemCount() > 0) jcbEspecialidad.setSelectedIndex(0);
         
         configurarCampos(true); 
         jcbEspecialidad.setEnabled(false); 
+
+        bVer.setText("Ver");
+        bModificar.setText("Modificar");
+        bAgregar.setEnabled(true);
+        bEliminar.setEnabled(true);
     }
     
     public void cargarTablaEmpleados() {
@@ -391,37 +396,42 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
 
     private void bVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVerActionPerformed
         // TODO add your handling code here:
-        int filaSeleccionada = jtEmpleados.getSelectedRow();
-        if(filaSeleccionada == -1) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un empleado.");
-            return;
-        }
-        
-        String dni = jtEmpleados.getValueAt(filaSeleccionada, 0).toString();
-        
-        Empleado empleadoEncontrado = SistemaClinico.gestionEmpleados.buscarPorDni(dni);
-        
-        if(empleadoEncontrado != null) {
-            jtDNI.setText(empleadoEncontrado.getDni());
-            jtNombres.setText(empleadoEncontrado.getNombre());
-            jtApellidos.setText(empleadoEncontrado.getApellido());
-            jtTelefono.setText(empleadoEncontrado.getTelefono());
-            jtEmail.setText(empleadoEncontrado.getEmail());
-            jtUsuario.setText(empleadoEncontrado.getUsuario());
-            jtPassword.setText(empleadoEncontrado.getPassword());
-            
-            jcbRol.setSelectedItem(empleadoEncontrado.getRol());
-            
-            if (empleadoEncontrado instanceof Medico) {
-                Medico medico = (Medico) empleadoEncontrado;
-                jcbEspecialidad.setEnabled(true);
-                jcbEspecialidad.setSelectedItem(medico.getEspecialidad());
-            } else {
-                jcbEspecialidad.setSelectedIndex(0); 
+        if (bVer.getText().equals("Ver")) {
+            int fila = jtEmpleados.getSelectedRow();
+            if (fila == -1) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un empleado.");
+                return;
             }
-            configurarCampos(false);
+
+            String dni = jtEmpleados.getValueAt(fila, 0).toString();
+            Empleado e = SistemaClinico.gestionEmpleados.buscarPorDni(dni);
+
+            if (e != null) {
+                jtDNI.setText(e.getDni());
+                jtNombres.setText(e.getNombre());
+                jtApellidos.setText(e.getApellido());
+                jtTelefono.setText(e.getTelefono());
+                jtEmail.setText(e.getEmail());
+                jtUsuario.setText(e.getUsuario());
+                jtPassword.setText(e.getPassword());
+                jcbRol.setSelectedItem(e.getRol());
+
+                if (e instanceof Medico) {
+                    jcbEspecialidad.setEnabled(true);
+                    jcbEspecialidad.setSelectedItem(((Medico) e).getEspecialidad());
+                } else {
+                    jcbEspecialidad.setEnabled(false);
+                }
+                
+                configurarCampos(false);
+
+                bVer.setText("Dejar de ver");
+                bAgregar.setEnabled(false);
+                bEliminar.setEnabled(false);
+                bModificar.setEnabled(false);
+            }
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "No se encontró al empleado.");
+            limpiarCampos();
         }
     }//GEN-LAST:event_bVerActionPerformed
 

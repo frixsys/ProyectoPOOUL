@@ -75,7 +75,6 @@ public class gestorPacientePanel extends javax.swing.JPanel {
     }
     
     public void limpiarCampos() {
-        configurarCampos(true); // Habilitar todo
         jtDNI.setText("");
         jtNombres.setText("");
         jtApellidos.setText("");
@@ -85,10 +84,12 @@ public class gestorPacientePanel extends javax.swing.JPanel {
         jtContactoEmergencia.setText("");
         jcbSexo.setSelectedIndex(0);
 
+        configurarCampos(true);
+ 
+        bVer.setText("Ver");
         bModificar.setText("Modificar");
         bAgregar.setEnabled(true);
         bEliminar.setEnabled(true);
-        bVer.setEnabled(true);
     }
 
     /**
@@ -127,6 +128,7 @@ public class gestorPacientePanel extends javax.swing.JPanel {
         bVer = new javax.swing.JButton();
         bEliminar = new javax.swing.JButton();
         jtEliminarDNI = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
 
         jLabel1.setText("Datos Consultorio");
 
@@ -210,6 +212,8 @@ public class gestorPacientePanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel9.setText("DD/MM/AA");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -217,39 +221,42 @@ public class gestorPacientePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addGap(18, 18, 18)
-                            .addComponent(jtFechaNacimiento))
-                        .addComponent(jLabel2)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jtextfield)
-                                .addComponent(jtextfield2)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel5))
-                            .addGap(46, 46, 46)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jtApellidos)
-                                .addComponent(jtNombres)
-                                .addComponent(jtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel8))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jcbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jtContactoEmergencia))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(jtFechaNacimiento))
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jtextfield)
+                                    .addComponent(jtextfield2)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(46, 46, 46)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtApellidos)
+                                    .addComponent(jtNombres)
+                                    .addComponent(jtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jcbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtContactoEmergencia))))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bAgregar)
                         .addGap(18, 18, 18)
                         .addComponent(bModificar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -291,7 +298,8 @@ public class gestorPacientePanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
@@ -353,26 +361,35 @@ public class gestorPacientePanel extends javax.swing.JPanel {
 
     private void bVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVerActionPerformed
         // TODO add your handling code here:
-        int filaSeleccionada = jtPacientes.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione un paciente de la tabla.");
-            return;
-        }
+        if (bVer.getText().equals("Ver")) {
+            int fila = jtPacientes.getSelectedRow();
+            if (fila == -1) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un paciente.");
+                return;
+            }
 
-        String dni = jtPacientes.getValueAt(filaSeleccionada, 0).toString();
-        Paciente p = SistemaClinico.gestionPacientes.buscar(dni);
+            String dni = jtPacientes.getValueAt(fila, 0).toString();
+            Paciente p = SistemaClinico.gestionPacientes.buscar(dni);
 
-        if (p != null) {
-            jtDNI.setText(p.getDni());
-            jtNombres.setText(p.getNombre());
-            jtApellidos.setText(p.getApellido());
-            jtTelefono.setText(p.getTelefono());
-            jtEmail.setText(p.getEmail());
-            jtFechaNacimiento.setText(p.getFechaNacimiento());
-            jcbSexo.setSelectedItem(p.getSexo());
-            jtContactoEmergencia.setText(p.getContactoDeEmergencia());
+            if (p != null) {
+                jtDNI.setText(p.getDni());
+                jtNombres.setText(p.getNombre());
+                jtApellidos.setText(p.getApellido());
+                jtTelefono.setText(p.getTelefono());
+                jtEmail.setText(p.getEmail());
+                jtFechaNacimiento.setText(p.getFechaNacimiento());
+                jcbSexo.setSelectedItem(p.getSexo());
+                jtContactoEmergencia.setText(p.getContactoDeEmergencia());
 
-            configurarCampos(false);
+                configurarCampos(false);
+                
+                bVer.setText("Dejar de ver");
+                bAgregar.setEnabled(false);
+                bEliminar.setEnabled(false);
+                bModificar.setEnabled(false);
+            }
+        } else {
+            limpiarCampos();
         }
     }//GEN-LAST:event_bVerActionPerformed
 
@@ -473,6 +490,7 @@ public class gestorPacientePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JComboBox<String> jcbSexo;
