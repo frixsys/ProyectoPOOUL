@@ -4,7 +4,7 @@
  */
 package Vista;
 
-import Model.Usuario;
+import GestionDeEmpleados.Empleado;
 
 /**
  *
@@ -15,10 +15,10 @@ public class MenuDeOpciones extends javax.swing.JFrame {
     /**
      * Creates new form MenuDeOpciones
      */
-    public MenuDeOpciones(Usuario user) {
+    public MenuDeOpciones(Empleado user) {
         initComponents();
         
-        switch (user.getRole()){
+        switch (user.getRol()){
             case "Administrador":
                 this.miConsultas.setEnabled(true);
                 this.miPacientes.setEnabled(true);
@@ -100,6 +100,7 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         miCitas = new javax.swing.JMenuItem();
         miFacturacion = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jmCerrarSesion = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -185,7 +186,16 @@ public class MenuDeOpciones extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Cuenta");
+
+        jmCerrarSesion.setText("Cerrar Sesión");
+        jmCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmCerrarSesionActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmCerrarSesion);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -241,6 +251,25 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         mostrarPanel(panelFactura);
     }//GEN-LAST:event_miFacturacionActionPerformed
 
+    private void jmCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCerrarSesionActionPerformed
+        // TODO add your handling code here:
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(
+            this,
+            "¿Seguro que desea cerrar sesión?",
+            "Cerrar Sesión",
+            javax.swing.JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            // 2. Cerrar la ventana actual (El menú principal)
+            this.dispose();
+            
+            // 3. Abrir nuevamente el Login
+            login ventanaLogin = new login();
+            ventanaLogin.setVisible(true);
+        }
+    }//GEN-LAST:event_jmCerrarSesionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -285,6 +314,7 @@ public class MenuDeOpciones extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem jmCerrarSesion;
     private javax.swing.JPanel jpContenidoPrincipal;
     private javax.swing.JMenuItem miCitas;
     private javax.swing.JMenuItem miConsultas;

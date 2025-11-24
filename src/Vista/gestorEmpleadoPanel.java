@@ -342,14 +342,14 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
         Empleado nuevoEmpleado = null;
 
         switch (rol) {
-            case "Medico":
-            String especialidad = (String) jcbEspecialidad.getSelectedItem();
-            if("Sin Especialidad".equals(especialidad) || especialidad == null){
-                JOptionPane.showMessageDialog(this, "Debe seleccionar una especialidad válida para el Médico.");
-                return;
-            }
-            nuevoEmpleado = new Medico(especialidad, dni, nombre, apellido, telefono, email, usuario, password, rol);
-            break;
+            case "Médico":
+            if (jcbEspecialidad.getSelectedIndex() == 0) {
+                    JOptionPane.showMessageDialog(this, "Debe seleccionar una especialidad válida para el Médico.");
+                    return; 
+                }
+                String especialidad = (String) jcbEspecialidad.getSelectedItem();
+                nuevoEmpleado = new Medico(especialidad, dni, nombre, apellido, telefono, email, usuario, password, rol);
+                break;
             case "Enfermero(a)":
             case "Enfermera":
             case "Enfermero":
@@ -381,7 +381,7 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         String rolSeleccionado = (String) jcbRol.getSelectedItem();
 
-        if ("Medico".equals(rolSeleccionado)) {
+        if ("Médico".equals(rolSeleccionado)) {
             jcbEspecialidad.setEnabled(true);
         } else {
             jcbEspecialidad.setEnabled(false);

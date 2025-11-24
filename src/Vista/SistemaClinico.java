@@ -23,12 +23,20 @@ public class SistemaClinico {
     public SistemaClinico() {}
     
     public static void inicializarvariable() {
-        gestionPacientes = new GestionPacientes(200);
-        gestionEmpleados = new GestionEmpleados(100);
-        gestionConsultorios = new gestionConsultorio(50);
-        gestionCitas = new GestionCitas(200);
-        gestionFacturas = new GestionFacturas(100);
-        gestionConsulta = new GestionConsulta(200); 
+        if (gestionEmpleados == null) {
+            
+            gestionPacientes = new GestionPacientes(200);
+            gestionEmpleados = new GestionEmpleados(100);
+            gestionConsultorios = new gestionConsultorio(50);
+            gestionCitas = new GestionCitas(200);
+            gestionFacturas = new GestionFacturas(100);
+            
+            GestionDeEmpleados.Administrador admin = new GestionDeEmpleados.Administrador(
+                    "00000000", "Super", "Admin", "000", "admin@clinica.com", 
+                    "admin", "admin", "Administrador"
+            );
+            gestionEmpleados.crearEmpleado(admin);
+        }
     }
     public boolean agregarPaciente(Paciente p) {
         return gestionPacientes.crearPaciente(p);

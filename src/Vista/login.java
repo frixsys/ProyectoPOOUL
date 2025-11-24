@@ -6,7 +6,9 @@ package Vista;
 
 import Vista.SistemaClinico;
 import Controller.gestorUsuarios;
+import GestionDeEmpleados.Empleado;
 import Model.Usuario;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,12 +23,6 @@ public class login extends javax.swing.JFrame {
     public login() {
         initComponents();
         SistemaClinico.inicializarvariable();
-        usuarios = new gestorUsuarios();
-        usuarios.AgregarUsuario("admin", "admin", "Administrador");
-        usuarios.AgregarUsuario("medico", "medico", "Médico");
-        usuarios.AgregarUsuario("enfermera", "enfermera", "Enfermera");
-        usuarios.AgregarUsuario("cajero", "cajero", "Cajero");
-        usuarios.AgregarUsuario("recepcionista", "recepcionista", "Recepcionista");
     }
 
     /**
@@ -96,9 +92,20 @@ public class login extends javax.swing.JFrame {
 
     private void bAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAceptarActionPerformed
         // TODO add your handling code here:
-        Usuario x = this.usuarios.validarUsuario(this.jtUsuario.getText(), this.password.getText());
-        MenuDeOpciones menu = new MenuDeOpciones(x);
-        menu.setVisible(true);
+        String user = this.jtUsuario.getText();
+        String pass = new String(this.password.getPassword());
+
+        Empleado empleadoEncontrado = SistemaClinico.gestionEmpleados.buscarPorUsuario(user);
+
+        if (empleadoEncontrado != null && empleadoEncontrado.getPassword().equals(pass)) {
+            
+            MenuDeOpciones menu = new MenuDeOpciones(empleadoEncontrado);
+            menu.setVisible(true);
+            this.dispose();
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
+        }
     }//GEN-LAST:event_bAceptarActionPerformed
 
     /**
