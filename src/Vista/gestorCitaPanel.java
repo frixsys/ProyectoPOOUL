@@ -41,8 +41,8 @@ public class gestorCitaPanel extends javax.swing.JPanel {
     }
     
     public void cargarCombos() {
-        // 1. Cargar Pacientes
         jcbPacientes.removeAllItems();
+        jcbPacientes.addItem("-- Seleccione Paciente --");
         Paciente[] pacientes = SistemaClinico.gestionPacientes.listar();
         for(int i=0; i < SistemaClinico.gestionPacientes.cantidad(); i++){
             jcbPacientes.addItem(pacientes[i].getDni() + " - " + pacientes[i].getNombre() + " " + pacientes[i].getApellido());
@@ -287,8 +287,11 @@ public class gestorCitaPanel extends javax.swing.JPanel {
         String fecha = jtFecha.getText();
         String estado = (String) jcbEstado.getSelectedItem();
 
-        if (jcbPacientes.getSelectedItem() == null || jcbMedicos.getSelectedItem() == null || jcbConsultorios.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(this, "Faltan datos (Pacientes, Médicos o Consultorios no registrados).");
+        if (jcbPacientes.getSelectedIndex() == 0 || 
+            jcbMedicos.getSelectedIndex() == 0 || 
+            jcbConsultorios.getSelectedIndex() == 0) {
+            
+            JOptionPane.showMessageDialog(this, "Seleccione un Paciente, un Médico y un Consultorio válidos.");
             return;
         }
 

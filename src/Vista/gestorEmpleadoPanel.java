@@ -175,7 +175,7 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
 
         jLabel5.setText("Usuario");
 
-        jcbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Cajero", "Médico", "Recepcionista", "Enfermero" }));
+        jcbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccione Rol --", "Administrador", "Cajero", "Médico", "Recepcionista", "Enfermero" }));
         jcbRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbRolActionPerformed(evt);
@@ -264,7 +264,7 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
                                     .addComponent(jcbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jcbEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(bModificar))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bVer)
@@ -343,6 +343,11 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
         String usuario = jtUsuario.getText();
         String password = jtPassword.getText();
         String rol = (String) jcbRol.getSelectedItem();
+        
+        if (jcbRol.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Selecciona un Rol válido.");
+            return;
+        }
 
         Empleado nuevoEmpleado = null;
 
