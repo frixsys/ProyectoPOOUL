@@ -170,7 +170,7 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
 
         jLabel5.setText("Usuario");
 
-        jcbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Cajero", "Medico", "Recepcionista", "Enfermero" }));
+        jcbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Cajero", "Médico", "Recepcionista", "Enfermero" }));
         jcbRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbRolActionPerformed(evt);
@@ -509,7 +509,7 @@ public class gestorEmpleadoPanel extends javax.swing.JPanel {
                 e.setPassword(jtPassword.getText());
                 e.setRol((String) jcbRol.getSelectedItem());
 
-                if (e instanceof Medico && "Medico".equals(jcbRol.getSelectedItem())) {
+                if (e instanceof Medico && "Médico".equals(jcbRol.getSelectedItem())) {
                      ((Medico) e).setEspecialidad((String) jcbEspecialidad.getSelectedItem());
                 }
 

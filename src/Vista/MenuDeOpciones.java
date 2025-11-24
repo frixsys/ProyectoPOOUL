@@ -164,6 +164,11 @@ public class MenuDeOpciones extends javax.swing.JFrame {
 
         miConsultas.setText("Consultas");
         miConsultas.setEnabled(false);
+        miConsultas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miConsultasActionPerformed(evt);
+            }
+        });
         jMenu1.add(miConsultas);
 
         miCitas.setText("Citas");
@@ -261,14 +266,18 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         );
 
         if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-            // 2. Cerrar la ventana actual (El menú principal)
             this.dispose();
             
-            // 3. Abrir nuevamente el Login
             login ventanaLogin = new login();
             ventanaLogin.setVisible(true);
         }
     }//GEN-LAST:event_jmCerrarSesionActionPerformed
+
+    private void miConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConsultasActionPerformed
+        // TODO add your handling code here:
+        gestorConsultaPanel panelConsulta = new gestorConsultaPanel();
+        mostrarPanel(panelConsulta);
+    }//GEN-LAST:event_miConsultasActionPerformed
 
     /**
      * @param args the command line arguments

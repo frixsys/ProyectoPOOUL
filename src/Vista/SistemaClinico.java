@@ -30,6 +30,7 @@ public class SistemaClinico {
             gestionConsultorios = new gestionConsultorio(50);
             gestionCitas = new GestionCitas(200);
             gestionFacturas = new GestionFacturas(100);
+            gestionConsulta = new GestionConsulta(100);
             
             GestionDeEmpleados.Administrador admin = new GestionDeEmpleados.Administrador(
                     "00000000", "Super", "Admin", "000", "admin@clinica.com", 
@@ -75,7 +76,7 @@ public class SistemaClinico {
         return gestionCitas.agregar(c);
     }
 
-    public String modificarCita(int index, String estado) {
+    public static String modificarCita(int index, String estado) {
         return gestionCitas.modificar(index, estado);
     }
 
@@ -89,10 +90,10 @@ public class SistemaClinico {
     public Factura[] listarFacturas() {
         return gestionFacturas.listar();
     }
-    public String agregarConsultas(Consultas c) {
+    public static String agregarConsultas(Consultas c) {
         return gestionConsulta.agregar(c);
     }
-    public Consultas[] listarConsultas() {
+    public static Consultas[] listarConsultas() {
         return gestionConsulta.listar();
     }
 
@@ -100,7 +101,7 @@ public class SistemaClinico {
         return gestionConsulta.eliminar(index);
     }
 
-    public int cantidadConsultas() {
+    public static int cantidadConsultas() {
         return gestionConsulta.cantidad();
     }
 }

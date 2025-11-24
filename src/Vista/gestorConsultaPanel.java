@@ -3,18 +3,103 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Vista;
-
+import GestionConsultas.Consultas;
+import GestionDeConsultorios.Cita;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 /**
  *
  * @author santiago
  */
 public class gestorConsultaPanel extends javax.swing.JPanel {
+    private DefaultTableModel modeloTabla;
 
     /**
      * Creates new form gestionConsulta
      */
     public gestorConsultaPanel() {
         initComponents();
+        modeloTabla = new DefaultTableModel();
+        
+        modeloTabla.addColumn("Paciente");
+        modeloTabla.addColumn("Motivo");
+        modeloTabla.addColumn("Diagnóstico");
+        modeloTabla.addColumn("Precio");
+        modeloTabla.addColumn("Estado");
+        
+        this.jtConsultas.setModel(modeloTabla);
+        
+        cargarCitasPendientes();
+        cargarTablaConsultas();
+        limpiarCampos();
+    }
+    
+    public void cargarCitasPendientes() {
+        jcbCitasPendientes.removeAllItems();
+        jcbCitasPendientes.addItem("-- Seleccione una Cita --");
+        
+        Cita[] citas = SistemaClinico.gestionCitas.listar();
+        int total = SistemaClinico.gestionCitas.cantidad();
+        
+        for (int i = 0; i < total; i++) {
+            String estado = citas[i].getEstado();
+            if (!"Atendida".equals(estado) && !"Cancelada".equals(estado)) {
+                String item = i + " - " + citas[i].getPaciente().getNombre() + " (" + citas[i].getFechaHora() + ")";
+                jcbCitasPendientes.addItem(item);
+            }
+        }
+    }
+    
+    public void cargarTablaConsultas() {
+        int filas = this.jtConsultas.getRowCount();
+        for (int i = 0; i < filas; i++) {
+            modeloTabla.removeRow(0);
+        }
+
+        Consultas[] lista = SistemaClinico.gestionConsulta.listar();
+        
+        int cantidad = SistemaClinico.cantidadConsultas();
+        
+        String[] datos = new String[5];
+        for (int i = 0; i < cantidad; i++) {
+            datos[0] = lista[i].getCita().getPaciente().getNombre();
+            datos[1] = lista[i].getMotivo();
+            datos[2] = lista[i].getDiagnostico();
+            datos[3] = String.valueOf(lista[i].getPrecio());
+            datos[4] = lista[i].getEstado();
+            
+            modeloTabla.addRow(datos);
+        }
+    }
+    
+    public void limpiarCampos() {
+
+        jtMotivo.setText("");
+        jtDiagnostico.setText("");
+        jtReceta.setText("");
+        jtPrecio.setText("");
+
+        if (jcbCitasPendientes.getItemCount() > 0) {
+            jcbCitasPendientes.setSelectedIndex(0);
+        }
+        cargarCitasPendientes(); 
+
+        configurarCampos(true);
+        
+        bVer.setText("Ver"); 
+        bRegistrar.setEnabled(true); 
+        bEliminar.setEnabled(true);
+    }
+    
+    public void configurarCampos(boolean habilitar) {
+
+        jtMotivo.setEnabled(habilitar);
+        jtDiagnostico.setEnabled(habilitar);
+        jtReceta.setEnabled(habilitar);
+        jtPrecio.setEnabled(habilitar);
+        jcbCitasPendientes.setEnabled(habilitar);
+
+        bRegistrar.setEnabled(habilitar); 
     }
 
     /**
@@ -26,19 +111,227 @@ public class gestorConsultaPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jtMotivo = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jtDiagnostico = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jtReceta = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jtPrecio = new javax.swing.JTextField();
+        bRegistrar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtConsultas = new javax.swing.JTable();
+        bVer = new javax.swing.JButton();
+        bEliminar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jcbCitasPendientes = new javax.swing.JComboBox<>();
+
+        jLabel1.setText("Datos Consulta");
+
+        jLabel2.setText("Motivo");
+
+        jLabel3.setText("Diagnóstico");
+
+        jLabel4.setText("Receta");
+
+        jLabel5.setText("Precio");
+
+        bRegistrar.setText("Registrar");
+        bRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bRegistrarActionPerformed(evt);
+            }
+        });
+
+        jtConsultas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(jtConsultas);
+
+        bVer.setText("Ver");
+        bVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bVerActionPerformed(evt);
+            }
+        });
+
+        bEliminar.setText("Eliminar");
+
+        jLabel6.setText("Citas Pendientes");
+
+        jcbCitasPendientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 994, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtMotivo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtDiagnostico, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                            .addComponent(jtReceta)
+                            .addComponent(jtPrecio)))
+                    .addComponent(bRegistrar)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jcbCitasPendientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bVer)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bEliminar)))
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 486, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jtMotivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jtDiagnostico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jtReceta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jcbCitasPendientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bVer)
+                        .addComponent(bRegistrar))
+                    .addComponent(bEliminar))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void bRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegistrarActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (jcbCitasPendientes.getSelectedIndex() <= 0) {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar una Cita para atender.");
+                return;
+            }
+            if (jtMotivo.getText().isEmpty() || jtDiagnostico.getText().isEmpty() || jtPrecio.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Complete Motivo, Diagnóstico y Precio.");
+                return;
+            }
+
+            String itemSeleccionado = (String) jcbCitasPendientes.getSelectedItem();
+            int indiceCita = Integer.parseInt(itemSeleccionado.split(" - ")[0]);
+            
+            Cita citaOriginal = SistemaClinico.gestionCitas.listar()[indiceCita];
+
+            String motivo = jtMotivo.getText();
+            String diag = jtDiagnostico.getText();
+            String receta = jtReceta.getText();
+            double precio = Double.parseDouble(jtPrecio.getText());
+
+            Consultas nuevaConsulta = new Consultas(motivo, diag, receta, precio, citaOriginal);
+
+            String mensaje = SistemaClinico.agregarConsultas(nuevaConsulta);
+
+            SistemaClinico.modificarCita(indiceCita, "Atendida");
+            
+            JOptionPane.showMessageDialog(this, mensaje);
+            
+            if (!mensaje.startsWith("ERROR")) {
+                limpiarCampos();  
+                cargarTablaConsultas();
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El precio debe ser un número.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error al procesar la consulta.");
+        }
+    }//GEN-LAST:event_bRegistrarActionPerformed
+
+    private void bVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVerActionPerformed
+        // TODO add your handling code here:
+        if (bVer.getText().equals("Ver")) {
+            
+            int fila = jtConsultas.getSelectedRow();
+            if (fila == -1) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Seleccione una consulta del historial.");
+                return;
+            }
+
+            Consultas[] lista = SistemaClinico.listarConsultas();
+            Consultas c = lista[fila];
+
+            if (c != null) {
+                jtMotivo.setText(c.getMotivo());
+                jtDiagnostico.setText(c.getDiagnostico());
+                jtReceta.setText(c.getReceta());
+                jtPrecio.setText(String.valueOf(c.getPrecio()));
+
+                configurarCampos(false);
+
+                bVer.setText("Dejar de ver");
+                bEliminar.setEnabled(false); 
+            }
+            
+        } else {
+            limpiarCampos();
+        }
+    }//GEN-LAST:event_bVerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bEliminar;
+    private javax.swing.JButton bRegistrar;
+    private javax.swing.JButton bVer;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<String> jcbCitasPendientes;
+    private javax.swing.JTable jtConsultas;
+    private javax.swing.JTextField jtDiagnostico;
+    private javax.swing.JTextField jtMotivo;
+    private javax.swing.JTextField jtPrecio;
+    private javax.swing.JTextField jtReceta;
     // End of variables declaration//GEN-END:variables
 }
