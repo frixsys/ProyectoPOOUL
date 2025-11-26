@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class gestorFacturaPanel extends javax.swing.JPanel {
     private DefaultTableModel modeloFact;
+    private double precioConsultaSeleccionada = 0.0;
 
     /**
      * Creates new form gestionFacturaPanel
@@ -50,7 +51,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
         
         Consultas[] lista = SistemaClinico.gestionConsulta.listar();
         for(int i=0; i < SistemaClinico.gestionConsulta.cantidad(); i++){
-            jcbConsultas.addItem(lista[i].getCita().getPaciente().getDni() + " - " + lista[i].getCita().getPaciente().getNombre() + " - " + lista[i].getMotivo());
+            jcbConsultas.addItem(i + " - " + lista[i].getCita().getPaciente().getDni() + " - " + lista[i].getCita().getPaciente().getNombre() + " - " + lista[i].getCita().getPaciente().getApellido() + " - " + lista[i].getMotivo());
         }
     }
 
@@ -73,7 +74,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
 
     public void configurarCampos(boolean habilitar) {
         jtNumero.setEnabled(habilitar);
-        jtMonto.setEnabled(habilitar);
+        jtMonto.setEnabled(!habilitar);
         jtDescripcion.setEnabled(habilitar);
         jcbConsultas.setEnabled(habilitar);
     }
@@ -83,6 +84,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
         jtMonto.setText("");
         jtDescripcion.setText("");
         if(jcbConsultas.getItemCount() > 0) jcbConsultas.setSelectedIndex(0);
+        precioConsultaSeleccionada = 0.0;
         
         configurarCampos(true);
         bVer.setText("Ver");
@@ -124,6 +126,8 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
         jLabel2.setText("Numero");
 
         jLabel3.setText("Monto");
+
+        jtMonto.setEnabled(false);
 
         jLabel4.setText("Descripcion");
 
@@ -194,18 +198,18 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
                             .addComponent(jLabel5))
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jcbConsultas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel6))
-                            .addComponent(jtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbConsultas, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bAgregar)
                         .addGap(28, 28, 28)
                         .addComponent(bModificar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -224,7 +228,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jLabel1)
-                        .addGap(28, 28, 28)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -267,15 +271,20 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
             }
 
             int numero = Integer.parseInt(jtNumero.getText());
-            double monto = Double.parseDouble(jtMonto.getText());
             String desc = jtDescripcion.getText();
+            double montoManual = 0.0;
+            if (!jtMonto.getText().isEmpty()) {
+                montoManual = Double.parseDouble(jtMonto.getText());
+            }
+            
+            double montoTotal = precioConsultaSeleccionada + montoManual;
 
             if(SistemaClinico.gestionFacturas.buscarFactura(numero) != null){
                 JOptionPane.showMessageDialog(this, "Ya existe una factura con ese número.");
                 return;
             }
 
-            Factura nuevaFactura = new Factura(numero, desc, monto);
+            Factura nuevaFactura = new Factura(numero, desc, montoTotal);
             
             String mensaje = SistemaClinico.gestionFacturas.crearFactura(nuevaFactura);
             JOptionPane.showMessageDialog(this, mensaje);
@@ -386,6 +395,22 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
 
     private void jcbConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbConsultasActionPerformed
         // TODO add your handling code here:
+        if (jcbConsultas.getSelectedIndex() > 0) {
+            try {
+                String seleccion = (String) jcbConsultas.getSelectedItem();
+                int index = Integer.parseInt(seleccion.split(" - ")[0]);
+                GestionConsultas.Consultas consulta = SistemaClinico.listarConsultas()[index];
+                precioConsultaSeleccionada = consulta.getPrecio();
+                jtMonto.setText(String.valueOf(precioConsultaSeleccionada));
+                
+  
+            } catch (Exception e) {
+                precioConsultaSeleccionada = 0.0;
+            }
+        } else {
+            precioConsultaSeleccionada = 0.0;
+            jtDescripcion.setText("");
+        }
     }//GEN-LAST:event_jcbConsultasActionPerformed
 
 
