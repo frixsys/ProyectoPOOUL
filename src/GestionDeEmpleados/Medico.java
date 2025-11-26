@@ -7,7 +7,7 @@ public class Medico extends Empleado {
     private String especialidad;
 
     public Medico(String especialidad, String dni, String nombre, String apellido, String telefono, String email, String usuario, String password, String rol) {
-        super(dni, nombre, apellido, telefono, email, usuario, password, "Medico");
+        super(dni, nombre, apellido, telefono, email, usuario, password, "Médico");
         this.especialidad = especialidad;
     }
 

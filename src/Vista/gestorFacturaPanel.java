@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import GestionConsultas.Consultas;
 import GestionDeFacturacion.Factura;
 import GestionDePacientes.Paciente;
 import javax.swing.table.DefaultTableModel;
@@ -33,10 +34,10 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
         cargarTablaFacturas();
         limpiarCampos();
         
-        jcbPacientes.addActionListener(new java.awt.event.ActionListener() {
+        jcbConsultas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if(jcbPacientes.getSelectedIndex() > 0) {
-                    String paciente = (String) jcbPacientes.getSelectedItem();
+                if(jcbConsultas.getSelectedIndex() > 0) {
+                    String paciente = (String) jcbConsultas.getSelectedItem();
                     jtDescripcion.setText("Atención a: " + paciente.split(" - ")[1]); 
                 }
             }
@@ -44,12 +45,12 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
     }
     
     public void cargarCombos() {
-        jcbPacientes.removeAllItems();
-        jcbPacientes.addItem("-- Seleccione Paciente --");
+        jcbConsultas.removeAllItems();
+        jcbConsultas.addItem("-- Seleccione Consulta --");
         
-        Paciente[] lista = SistemaClinico.gestionPacientes.listar();
-        for(int i=0; i < SistemaClinico.gestionPacientes.cantidad(); i++){
-            jcbPacientes.addItem(lista[i].getDni() + " - " + lista[i].getNombre() + " " + lista[i].getApellido());
+        Consultas[] lista = SistemaClinico.gestionConsulta.listar();
+        for(int i=0; i < SistemaClinico.gestionConsulta.cantidad(); i++){
+            jcbConsultas.addItem(lista[i].getCita().getPaciente().getDni() + " - " + lista[i].getCita().getPaciente().getNombre() + " - " + lista[i].getMotivo());
         }
     }
 
@@ -74,16 +75,17 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
         jtNumero.setEnabled(habilitar);
         jtMonto.setEnabled(habilitar);
         jtDescripcion.setEnabled(habilitar);
-        jcbPacientes.setEnabled(habilitar);
+        jcbConsultas.setEnabled(habilitar);
     }
 
     public void limpiarCampos() {
         jtNumero.setText("");
         jtMonto.setText("");
         jtDescripcion.setText("");
-        if(jcbPacientes.getItemCount() > 0) jcbPacientes.setSelectedIndex(0);
+        if(jcbConsultas.getItemCount() > 0) jcbConsultas.setSelectedIndex(0);
         
         configurarCampos(true);
+        bVer.setText("Ver");
         bModificar.setText("Modificar");
         bAgregar.setEnabled(true);
         bEliminar.setEnabled(true);
@@ -107,7 +109,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jtDescripcion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jcbPacientes = new javax.swing.JComboBox<>();
+        jcbConsultas = new javax.swing.JComboBox<>();
         bAgregar = new javax.swing.JButton();
         bModificar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -125,7 +127,13 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
 
         jLabel4.setText("Descripcion");
 
-        jLabel5.setText("Pacientes");
+        jLabel5.setText("Consultas");
+
+        jcbConsultas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbConsultasActionPerformed(evt);
+            }
+        });
 
         bAgregar.setText("Agregar");
         bAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -186,7 +194,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
                             .addComponent(jLabel5))
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jcbPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbConsultas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -232,7 +240,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jcbPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jcbConsultas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(27, Short.MAX_VALUE)
@@ -376,6 +384,10 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_bEliminarActionPerformed
 
+    private void jcbConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbConsultasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbConsultasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAgregar;
@@ -389,7 +401,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JComboBox<String> jcbPacientes;
+    private javax.swing.JComboBox<String> jcbConsultas;
     private javax.swing.JTextField jtDescripcion;
     private javax.swing.JTextField jtEliminarNumero;
     private javax.swing.JTable jtFacturas;
