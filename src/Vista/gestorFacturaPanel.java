@@ -39,7 +39,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 if(jcbConsultas.getSelectedIndex() > 0) {
                     String paciente = (String) jcbConsultas.getSelectedItem();
-                    jtDescripcion.setText("Atención a: " + paciente.split(" - ")[1]); 
+                    jtDescripcion.setText(""); 
                 }
             }
         });
@@ -130,6 +130,12 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
         jtMonto.setEnabled(false);
 
         jLabel4.setText("Descripcion");
+
+        jtDescripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtDescripcionActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Consultas");
 
@@ -412,6 +418,10 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
             jtDescripcion.setText("");
         }
     }//GEN-LAST:event_jcbConsultasActionPerformed
+
+    private void jtDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtDescripcionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtDescripcionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
