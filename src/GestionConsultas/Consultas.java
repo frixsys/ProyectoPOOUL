@@ -11,7 +11,10 @@ public class Consultas {
     private String receta;
     private double precio;
     private String estado;
-    private Cita cita;           
+    private Cita cita;
+    
+    private OrdenLaboratorio[] ordenes;
+    private int contadorOrdenes;
 
     public Consultas(String motivo, String diagnostico, String receta, double precio, Cita cita) {
         this.motivo = motivo;
@@ -20,7 +23,33 @@ public class Consultas {
         this.precio = precio;
         this.estado = "Abierta";
         this.cita = cita;
+        
+        this.ordenes = new OrdenLaboratorio[10];
+        this.contadorOrdenes = 0;
     }
+    
+    public double getPrecioTotal() {
+        double total = this.precio;
+        for(int i = 0; i < contadorOrdenes; i++) {
+            total += ordenes[i].getPrecio();
+        }
+        return total;
+    }
+
+    public OrdenLaboratorio[] getOrdenes() {
+        return ordenes;
+    }
+
+    public int getContadorOrdenes() {
+        return contadorOrdenes;
+    }
+    
+    public void agregarOrden(OrdenLaboratorio orden) {
+        if (contadorOrdenes < ordenes.length) {
+            ordenes[contadorOrdenes++] = orden;
+        }
+    }
+    
      public String getMotivo() {
          return motivo;
     }

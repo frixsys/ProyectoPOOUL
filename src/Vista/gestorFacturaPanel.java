@@ -6,7 +6,6 @@ package Vista;
 
 import GestionConsultas.Consultas;
 import GestionDeFacturacion.Factura;
-import GestionDePacientes.Paciente;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 /**
@@ -128,6 +127,11 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
         jLabel3.setText("Monto");
 
         jtMonto.setEnabled(false);
+        jtMonto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtMontoActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Descripcion");
 
@@ -406,7 +410,7 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
                 String seleccion = (String) jcbConsultas.getSelectedItem();
                 int index = Integer.parseInt(seleccion.split(" - ")[0]);
                 GestionConsultas.Consultas consulta = SistemaClinico.listarConsultas()[index];
-                precioConsultaSeleccionada = consulta.getPrecio();
+                precioConsultaSeleccionada = consulta.getPrecioTotal();
                 jtMonto.setText(String.valueOf(precioConsultaSeleccionada));
                 
   
@@ -422,6 +426,10 @@ public class gestorFacturaPanel extends javax.swing.JPanel {
     private void jtDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtDescripcionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtDescripcionActionPerformed
+
+    private void jtMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtMontoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtMontoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

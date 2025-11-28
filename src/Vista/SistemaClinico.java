@@ -12,6 +12,8 @@ import GestionDeConsultorios.Consultorio;
 import GestionDeConsultorios.Cita;
 import GestionDeFacturacion.Factura;
 import GestionConsultas.Consultas;
+import GestionConsultas.GestionRecetas;
+import GestionConsultas.RecetaMedica;
 
 public class SistemaClinico {
     static GestionPacientes gestionPacientes;
@@ -20,6 +22,7 @@ public class SistemaClinico {
     static GestionCitas gestionCitas;
     static GestionFacturas gestionFacturas;
     static GestionConsulta gestionConsulta; 
+    static GestionRecetas gestionRecetas;
     public SistemaClinico() {}
     
     public static void inicializarvariable() {
@@ -31,6 +34,7 @@ public class SistemaClinico {
             gestionCitas = new GestionCitas(200);
             gestionFacturas = new GestionFacturas(100);
             gestionConsulta = new GestionConsulta(100);
+            gestionRecetas = new GestionRecetas(100);
             
             // SUPERUSUARIO
             GestionDeEmpleados.Administrador admin = new GestionDeEmpleados.Administrador(
@@ -165,4 +169,18 @@ public class SistemaClinico {
     public static int cantidadConsultas() {
         return gestionConsulta.cantidad();
     }
+    
+    public static String agregarReceta(RecetaMedica r) { 
+        return gestionRecetas.agregar(r); 
+    }
+    public static void eliminarReceta(int i) {
+        gestionRecetas.eliminar(i); 
+    }
+    public static RecetaMedica[] listarRecetas() { 
+        return gestionRecetas.listar(); 
+    }
+    public static int cantidadRecetas() { 
+        return gestionRecetas.cantidad(); 
+    }
+    
 }

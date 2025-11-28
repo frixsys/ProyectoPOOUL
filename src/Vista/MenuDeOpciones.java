@@ -132,11 +132,11 @@ public class MenuDeOpciones extends javax.swing.JFrame {
         jpContenidoPrincipal.setLayout(jpContenidoPrincipalLayout);
         jpContenidoPrincipalLayout.setHorizontalGroup(
             jpContenidoPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 1140, Short.MAX_VALUE)
         );
         jpContenidoPrincipalLayout.setVerticalGroup(
             jpContenidoPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 464, Short.MAX_VALUE)
+            .addGap(0, 557, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Menu");
