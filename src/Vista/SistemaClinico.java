@@ -49,6 +49,12 @@ public class SistemaClinico {
                     "123", "123", "Médico"
             );
             gestionEmpleados.crearEmpleado(medico1);
+            
+            GestionDeEmpleados.Enfermero enfermero1 = new GestionDeEmpleados.Enfermero(
+                    "88776655", "Pepe", "Suarez", "987098203", "enfermero@clinica.com", 
+                    "enfermero", "123", "Enfermero");
+            
+            gestionEmpleados.crearEmpleado(enfermero1);
 
             GestionDeEmpleados.Cajero cajero1 = new GestionDeEmpleados.Cajero(
                     "22222222", "Don", "Cangrejo", "999333444", "cajero@clinica.com",

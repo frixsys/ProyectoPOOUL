@@ -37,7 +37,7 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 this.miFacturacion.setEnabled(true);
                 this.miReportes.setEnabled(false);
                 break;
-            case "Enfermera":
+            case "Enfermero":
                 this.miConsultas.setEnabled(false);
                 this.miPacientes.setEnabled(true);
                 this.miEmpleados.setEnabled(false);
