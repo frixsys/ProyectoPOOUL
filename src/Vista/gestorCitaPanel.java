@@ -183,7 +183,7 @@ public class gestorCitaPanel extends javax.swing.JPanel {
             }
         });
 
-        bEliminar.setText("Eliminar");
+        bEliminar.setText("Dar de Alta y Eliminar");
         bEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bEliminarActionPerformed(evt);
@@ -385,7 +385,7 @@ public class gestorCitaPanel extends javax.swing.JPanel {
             return;
         }
         
-        int confirm = JOptionPane.showConfirmDialog(this, "¿Eliminar la cita seleccionada?");
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Dar de alta y eliminar la cita seleccionada?");
         if (confirm == JOptionPane.YES_OPTION) {
             String mensaje = SistemaClinico.gestionCitas.eliminar(fila);
             JOptionPane.showMessageDialog(this, mensaje);
