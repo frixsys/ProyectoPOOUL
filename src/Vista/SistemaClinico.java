@@ -46,7 +46,7 @@ public class SistemaClinico {
             // DATOS DE PRUEBAA
             GestionDeEmpleados.Medico medico1 = new GestionDeEmpleados.Medico(
                     "Medicina General", "11111111", "Gregory", "House", "999111222", "house@clinica.com",
-                    "123", "123", "Médico"
+                    "medico", "123", "Médico"
             );
             gestionEmpleados.crearEmpleado(medico1);
             
