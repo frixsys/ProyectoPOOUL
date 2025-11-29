@@ -57,11 +57,11 @@ public class MenuDeOpciones extends javax.swing.JFrame {
                 break;
             case "Recepcionista":
                 this.miConsultas.setEnabled(false);
-                this.miPacientes.setEnabled(false);
-                this.miEmpleados.setEnabled(false);
-                this.miConsultorios.setEnabled(false);
+                this.miPacientes.setEnabled(true);
+                this.miEmpleados.setEnabled(true);
+                this.miConsultorios.setEnabled(true);
                 this.miCitas.setEnabled(true);
-                this.miFacturacion.setEnabled(true);
+                this.miFacturacion.setEnabled(false);
                 this.miReportes.setEnabled(false);
                 break;
         }
